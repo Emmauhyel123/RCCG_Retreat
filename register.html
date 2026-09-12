@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reserve your seat — Choir Retreat &amp; Concert 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">
+      <span class="brand-crest"><img src="assets/RCCG LOGO.jpg" alt="Brand Crest"></span>
+      <span class="brand-text">
+        <span class="line1">RCCG TP 2</span>
+        <span class="line2">CHOIR RETREAT</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-i18n="nav_home">Home</a></li>
+      <li><a href="index.html#ministers" data-i18n="nav_ministers">Ministers</a></li>
+      <li><a href="index.html#schedule" data-i18n="nav_schedule">Schedule</a></li>
+      <li><a href="social.html" data-i18n="nav_social">Connect</a></li>
+      <li><a href="login.html" data-i18n="nav_login">Login</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button data-lang="en" class="active">EN</button>
+        <button data-lang="ha">HA</button>
+        <button data-lang="yo">YO</button>
+        <button data-lang="ig">IG</button>
+      </div>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    </div>
+  </nav>
+</header>
+
+<div class="auth-wrap">
+  <div class="auth-side">
+    <p class="hero-eyebrow"><span class="rule"></span><span data-i18n="register_eyebrow">Reserve your seat</span></p>
+    <h1 style="font-size: clamp(30px,4vw,44px); color: var(--cream);" data-i18n="register_title">Join the retreat</h1>
+    <p class="hero-lede" data-i18n="register_lede">A few details and you're in — you'll be able to log in any time to check your registration.</p>
+    <div class="theme-text" style="color: var(--gold-soft);">"The Vessel God Uses"</div>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="form-wrap">
+      <h2 style="font-size:24px; margin-bottom:26px;" data-i18n="register_form_title">Reserve your seat</h2>
+      <form id="register-form" novalidate>
+        <div class="field">
+          <label for="reg-name" data-i18n="register_name">Full name</label>
+          <input type="text" id="reg-name" name="full_name" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="reg-phone" data-i18n="register_phone">Phone number</label>
+          <input type="tel" id="reg-phone" name="phone" autocomplete="tel" required>
+        </div>
+        <div class="field">
+          <label for="reg-parish" data-i18n="register_parish">Parish / choir unit</label>
+          <input type="text" id="reg-parish" name="parish_unit" autocomplete="organization">
+        </div>
+        <div class="field">
+          <label for="reg-day" data-i18n="register_day">Which day(s) will you attend?</label>
+          <select id="reg-day" name="arrival_day" style="width:100%; padding:12px 14px; border:1px solid var(--paper-line); border-radius:var(--radius); font-family:var(--sans); font-size:15px; background:#fff; color: var(--charcoal);">
+            <option value="both" data-i18n="register_day_both">Both days</option>
+            <option value="friday" data-i18n="register_day_friday">Friday only</option>
+            <option value="saturday" data-i18n="register_day_saturday">Saturday only</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="reg-email" data-i18n="login_email">Email address</label>
+          <input type="email" id="reg-email" name="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="reg-password" data-i18n="register_password">Create a password</label>
+          <input type="password" id="reg-password" name="password" autocomplete="new-password" required minlength="6">
+        </div>
+        <button type="submit" class="form-submit" data-i18n="register_submit">Reserve my seat</button>
+        <p class="form-msg" id="register-msg"></p>
+      </form>
+      <p class="form-foot"><span data-i18n="register_have_account">Already registered?</span> <a href="login.html" style="color:var(--crimson); text-decoration:none; font-weight:600;" data-i18n="nav_login">Login</a></p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

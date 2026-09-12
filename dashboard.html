@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My registration — Choir Retreat &amp; Concert 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">
+      <span class="brand-crest"><img src="assets/RCCG LOGO.jpg" alt="Brand Crest"></span>
+      <span class="brand-text">
+        <span class="line1">RCCG TP 2</span>
+        <span class="line2">CHOIR RETREAT</span>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-i18n="nav_home">Home</a></li>
+      <li><a href="index.html#ministers" data-i18n="nav_ministers">Ministers</a></li>
+      <li><a href="index.html#schedule" data-i18n="nav_schedule">Schedule</a></li>
+      <li><a href="social.html" data-i18n="nav_social">Connect</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button data-lang="en" class="active">EN</button>
+        <button data-lang="ha">HA</button>
+        <button data-lang="yo">YO</button>
+        <button data-lang="ig">IG</button>
+      </div>
+      <button id="signout-btn" class="btn btn-line" data-i18n="dashboard_signout">Sign out</button>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    </div>
+  </nav>
+</header>
+
+<section style="padding-top: 64px;">
+  <div class="container" style="max-width: 640px;">
+    <div class="kicker" data-i18n="dashboard_kicker">Your registration</div>
+    <h1 style="font-size: clamp(28px,3.6vw,40px); margin-top:8px;" id="dashboard-greeting" data-i18n="dashboard_loading">Loading…</h1>
+
+    <div id="dashboard-card" class="ticket" style="margin-top:32px; display:none;">
+      <div class="theme-label" data-i18n="dashboard_status_label">Status</div>
+      <div class="theme-text" data-i18n="dashboard_status_confirmed" style="font-size:22px;">You're registered</div>
+      <hr>
+      <div class="row"><span class="k" data-i18n="register_name">Full name</span><span class="v" id="dash-name">—</span></div>
+      <div class="row"><span class="k" data-i18n="register_phone">Phone number</span><span class="v" id="dash-phone">—</span></div>
+      <div class="row"><span class="k" data-i18n="register_parish">Parish / choir unit</span><span class="v" id="dash-parish">—</span></div>
+      <div class="row"><span class="k" data-i18n="register_day">Attending</span><span class="v" id="dash-day">—</span></div>
+    </div>
+
+    <p id="dashboard-empty" style="display:none; margin-top:28px; opacity:.8;" data-i18n="dashboard_empty">We couldn't find a registration linked to this account yet.</p>
+    <a href="register.html" id="dashboard-empty-cta" style="display:none; margin-top:16px;" class="btn btn-gold" data-i18n="register_submit">Reserve my seat</a>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
