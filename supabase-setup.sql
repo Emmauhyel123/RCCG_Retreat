@@ -1,86 +1,95 @@
-/* ============================================================
-   RCCG Retreat & Concert 2026 — Supabase Setup
-   
-   This script creates the registrations and admins tables
-   with Row Level Security (RLS) policies to enforce access control.
-   
-   IMPORTANT: After running this script:
-   1. Grant admin access to specific users by running:
-      INSERT INTO public.admins (user_id) VALUES ('<user_uuid>');
-   2. Replace '<user_uuid>' with the actual UUID from auth.users
-   ============================================================ */
+-- ============================================================
+-- Run this once in Supabase → SQL Editor → New query → Run
+-- ============================================================
 
--- Create the registrations table
-CREATE TABLE IF NOT EXISTS public.registrations (
-  id BIGSERIAL PRIMARY KEY,
-  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  full_name TEXT NOT NULL,
-  email TEXT NOT NULL,
-  phone TEXT NOT NULL,
-  parish_unit TEXT,
-  arrival_day TEXT NOT NULL CHECK (arrival_day IN ('friday', 'saturday', 'both')),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  UNIQUE(user_id)
+-- 1. Table to hold retreat registration details.
+--    Auth (email/password, sessions) is handled by Supabase's
+--    built-in auth.users table — this table just adds the
+--    retreat-specific fields, linked to that user.
+create table if not exists public.registrations (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade not null,
+  full_name text not null,
+  email text,
+  phone text not null,
+  parish_unit text,
+  arrival_day text,        -- 'friday', 'saturday', or 'both'
+  created_at timestamptz default now()
 );
 
--- Create the admins table (committee access control)
-CREATE TABLE IF NOT EXISTS public.admins (
-  user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-  granted_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+-- 2. Turn on Row Level Security so people can only see/edit
+--    their own registration row — required, off by default.
+alter table public.registrations enable row level security;
+
+-- 3. Policy: a logged-in user can insert their own row.
+create policy "Users can insert their own registration"
+  on public.registrations for insert
+  with check (auth.uid() = user_id);
+
+-- 4. Policy: a logged-in user can view their own row.
+create policy "Users can view their own registration"
+  on public.registrations for select
+  using (auth.uid() = user_id);
+
+-- 5. Policy: a logged-in user can update their own row
+--    (e.g. if they need to fix a typo after registering).
+create policy "Users can update their own registration"
+  on public.registrations for update
+  using (auth.uid() = user_id);
+
+-- Optional, for the committee: create a separate admin role or
+-- use the Supabase dashboard's Table Editor (with the
+-- service_role key, never exposed to the browser) to view all
+-- registrations at once.
+
+-- ============================================================
+-- Admin portal support
+-- ============================================================
+
+-- 6. A table listing which accounts are allowed to see everyone's
+--    registration (rather than just their own). There is no
+--    "make me admin" button anywhere on the site on purpose —
+--    you add committee members here yourself, from the SQL Editor.
+create table if not exists public.admins (
+  user_id uuid primary key references auth.users(id) on delete cascade
 );
 
--- Enable RLS on registrations
-ALTER TABLE public.registrations ENABLE ROW LEVEL SECURITY;
+alter table public.admins enable row level security;
 
--- Enable RLS on admins
-ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
+-- Only an existing admin can see who else is an admin.
+create policy "Admins can view the admins list"
+  on public.admins for select
+  using (exists (select 1 from public.admins a where a.user_id = auth.uid()));
 
--- Policy: Users can INSERT their own registration
-CREATE POLICY "users_can_insert_own_registration" ON public.registrations
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+-- 7. Extend the registrations policy so admins can see every row,
+--    not just their own (the earlier "view their own" policy from
+--    step 4 still applies for everyone else).
+create policy "Admins can view all registrations"
+  on public.registrations for select
+  using (exists (select 1 from public.admins a where a.user_id = auth.uid()));
 
--- Policy: Users can SELECT their own registration
-CREATE POLICY "users_can_select_own_registration" ON public.registrations
-  FOR SELECT USING (auth.uid() = user_id);
+-- ------------------------------------------------------------
+-- To make someone an admin:
+-- 1. Have them register normally on the site first (so they
+--    exist in auth.users), then run:
+--
+--    insert into public.admins (user_id)
+--    select id from auth.users where email = 'their-email@example.com';
+--
+-- 2. They can then log in and open admin.html.
+-- ------------------------------------------------------------
 
--- Policy: Users can UPDATE their own registration
-CREATE POLICY "users_can_update_own_registration" ON public.registrations
-  FOR UPDATE USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+-- ============================================================
+-- Registration form v2: focus areas + province/zone/area/parish
+-- Run this once to extend the existing registrations table.
+-- (The old parish_unit column is left in place, just unused by
+-- the new form — safe to drop later once you've migrated any
+-- existing rows.)
+-- ============================================================
 
--- Policy: Admins can SELECT all registrations
-CREATE POLICY "admins_can_select_all_registrations" ON public.registrations
-  FOR SELECT USING (EXISTS (SELECT 1 FROM public.admins WHERE admins.user_id = auth.uid()));
-
--- Policy: Only admins can access the admins table (read-only)
-CREATE POLICY "admins_table_read_only" ON public.admins
-  FOR SELECT USING (auth.uid() IN (SELECT user_id FROM public.admins));
-
--- Create an index on user_id for faster queries
-CREATE INDEX IF NOT EXISTS idx_registrations_user_id ON public.registrations(user_id);
-CREATE INDEX IF NOT EXISTS idx_admins_user_id ON public.admins(user_id);
-
--- Auto-update the updated_at timestamp
-CREATE OR REPLACE FUNCTION public.update_registration_timestamp()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = NOW();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER registrations_update_timestamp
-  BEFORE UPDATE ON public.registrations
-  FOR EACH ROW
-  EXECUTE FUNCTION public.update_registration_timestamp();
-
-/* 
-   TO GRANT ADMIN ACCESS:
-   
-   In the Supabase dashboard, go to SQL Editor and run:
-   
-   INSERT INTO public.admins (user_id) VALUES ('<user_uuid>');
-   
-   Replace '<user_uuid>' with the user's UUID from auth.users.
-   You can find this in Auth → Users in your Supabase dashboard.
-*/
+alter table public.registrations
+  add column if not exists focus_areas text[],
+  add column if not exists province text,
+  add column if not exists zone text,
+  add column if not exists area text,
+  add column if not exists parish text;
