@@ -8,7 +8,13 @@
    policies allow. Never put your service_role key here.
    ============================================================ */
 
-const NEXT_PUBLIC_SUPABASE_URL="https://vqyyhzjwrjyfidqspftb.supabase.co";
-const NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="sb_publishable_e08VQGAP_ErOMPTHakYeiw_GbDAX9bP";
+const SUPABASE_URL =
+  'https://vqyyhzjwrjyfidqspftb.supabase.co';
 
-const supabaseClient = window.supabase.createClient(NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
+const SUPABASE_PUBLISHABLE_KEY =
+  'YOUR_PUBLISHABLE_KEY';
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
