@@ -12,7 +12,7 @@ const SUPABASE_URL =
   'https://vqyyhzjwrjyfidqspftb.supabase.co';
 
 const SUPABASE_PUBLISHABLE_KEY =
-  'YOUR_PUBLISHABLE_KEY';
+  'sb_publishable_e08VQGAP_ErOMPTHakYeiw_GbDAX9bP';
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
