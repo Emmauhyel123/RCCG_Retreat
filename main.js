@@ -1175,3 +1175,20 @@ document.addEventListener("DOMContentLoaded", function(){
   initAdminPage();
   initCopyButtons();
 });
+const { data, error } = await supabaseClient.auth.signUp({
+  email,
+  password,
+  options: {
+    emailRedirectTo: `${window.location.origin}/dashboard.html`,
+  },
+});
+
+if (error) {
+  throw new Error(error.message);
+}
+
+if (!data.session) {
+  alert('Check your email to verify your account before signing in.');
+} else {
+  window.location.href = 'dashboard.html';
+}
