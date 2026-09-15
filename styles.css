@@ -411,6 +411,58 @@ footer a:hover{ opacity:1; text-decoration:underline; }
 .form-msg{ font-size: 13.5px; margin-top: 10px; min-height: 18px; }
 .form-msg.ok{ color: #2f6d3e; }
 
+/* ---------- Registration wizard ---------- */
+.wizard-progress{ display:flex; flex-direction:column; gap:18px; }
+.wizard-step-dot{ display:flex; align-items:center; gap:12px; opacity:.5; }
+.wizard-step-dot.active, .wizard-step-dot.done{ opacity:1; }
+.wizard-step-dot .dot-num{
+  width:28px; height:28px; border-radius:50%;
+  border:1px solid var(--gold);
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--serif); font-size:13px; color: var(--gold-soft);
+  flex-shrink:0;
+}
+.wizard-step-dot.active .dot-num{ background: var(--gold); color: var(--ink); }
+.wizard-step-dot.done .dot-num{ background: var(--crimson); border-color: var(--crimson); color:#fff; }
+.wizard-step-dot .dot-label{ font-size:14px; color: var(--cream); }
+
+.wizard-nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  margin-top: 8px;
+}
+.wizard-nav .btn{ min-width: 100px; text-align:center; }
+
+.checkbox-list{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  margin-top: 8px;
+}
+.checkbox-item{
+  display:flex;
+  align-items:flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height:1.4;
+  cursor:pointer;
+}
+.checkbox-item input{ width:auto; margin-top:3px; flex-shrink:0; }
+
+.cascade-select{
+  width:100%;
+  padding: 12px 14px;
+  border: 1px solid var(--paper-line);
+  background: #fff;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-family: var(--sans);
+  color: var(--charcoal);
+}
+.cascade-select:disabled{ background: #f0ebe0; color: var(--charcoal-70); cursor:not-allowed; }
+
 /* ---------- Social page ---------- */
 .social-hero{ padding: 72px 0 40px; }
 .social-links{

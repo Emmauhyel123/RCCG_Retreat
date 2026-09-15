@@ -1,20 +1,11 @@
 /* ============================================================
    Supabase project configuration
    ------------------------------------------------------------
-   Fill these in from your Supabase project:
-   Project Settings → API → Project URL / anon public key.
-   The anon key is safe to expose in front-end code — it only
-   works within the permissions your Row Level Security (RLS)
-   policies allow. Never put your service_role key here.
+   Connected to the real project: vqyyhzjwrjyfidqspftb
+   (Emmauhyel123's Project, eu-west-1)
    ============================================================ */
 
-const SUPABASE_URL =
-  'https://vqyyhzjwrjyfidqspftb.supabase.co';
+const SUPABASE_URL = "https://vqyyhzjwrjyfidqspftb.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZxeXloemp3cmp5ZmlkcXNwZnRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkxNTQ1NjQsImV4cCI6MjEwNDczMDU2NH0.-o31etxRA-s58TEjXbQaE7TtqRqrDs4Zp7Cm27yl6js";
 
-const SUPABASE_PUBLISHABLE_KEY =
-  'sb_publishable_e08VQGAP_ErOMPTHakYeiw_GbDAX9bP';
-
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

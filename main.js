@@ -1165,30 +1165,21 @@ function initCopyButtons(){
   });
 }
 
+/* Each init is wrapped so a failure in one page's script (say, a
+   Supabase call throwing because config.js still has placeholder
+   keys) can never block something unrelated — like the mobile
+   menu — from working on every other page. */
+function safeInit(fn){
+  try { fn(); } catch (err) { console.error("[" + fn.name + "] failed:", err); }
+}
+
 document.addEventListener("DOMContentLoaded", function(){
-  initLangSwitch();
-  initMobileNav();
-  initLoginForm();
-  initRegisterForm();
-  initPasswordResetPage();
-  initDashboard();
-  initAdminPage();
-  initCopyButtons();
+  safeInit(initLangSwitch);
+  safeInit(initMobileNav);
+  safeInit(initLoginForm);
+  safeInit(initRegisterForm);
+  safeInit(initPasswordResetPage);
+  safeInit(initDashboard);
+  safeInit(initAdminPage);
+  safeInit(initCopyButtons);
 });
-const { data, error } = await supabaseClient.auth.signUp({
-  email,
-  password,
-  options: {
-    emailRedirectTo: `${window.location.origin}/dashboard.html`,
-  },
-});
-
-if (error) {
-  throw new Error(error.message);
-}
-
-if (!data.session) {
-  alert('Check your email to verify your account before signing in.');
-} else {
-  window.location.href = 'dashboard.html';
-}

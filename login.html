@@ -13,10 +13,10 @@
 <header class="site-header">
   <nav class="nav">
     <a href="index.html" class="brand">
-      <span class="brand-crest"><img src="assets/RCCG LOGO.jpg" alt="Brand Crest"></span>
+      <span class="brand-crest">RC</span>
       <span class="brand-text">
-        <span class="line1">RCCG TP 2</span>
-        <span class="line2">CHOIR RETREAT</span>
+        <span class="line1">RCCG Taraba Province 2</span>
+        <span class="line2">Choir Retreat</span>
       </span>
     </a>
     <ul class="nav-links">
@@ -25,6 +25,14 @@
       <li><a href="index.html#schedule" data-i18n="nav_schedule">Schedule</a></li>
       <li><a href="social.html" data-i18n="nav_social">Connect</a></li>
       <li><a href="login.html" class="active" data-i18n="nav_login">Login</a></li>
+      <li class="mobile-only-nav-item" style="width:100%; justify-content:space-between; padding-top:8px; border-top:1px solid var(--wine-line); margin-top:6px;">
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button data-lang="en" class="active">EN</button>
+          <button data-lang="ha">HA</button>
+          <button data-lang="yo">YO</button>
+          <button data-lang="ig">IG</button>
+        </div>
+      </li>
     </ul>
     <div class="nav-right">
       <div class="lang-switch" role="group" aria-label="Language">
@@ -62,7 +70,7 @@
           <label style="display:flex; align-items:center; gap:8px; font-size:13.5px;">
             <input type="checkbox" style="width:auto;"> <span data-i18n="login_remember">Remember me</span>
           </label>
-          <a href="#" data-i18n="login_forgot">Forgot password?</a>
+          <a href="password-reset.html" data-i18n="login_forgot">Forgot password?</a>
         </div>
         <button type="submit" class="form-submit" data-i18n="login_submit">Login</button>
         <p class="form-msg" id="login-msg"></p>
