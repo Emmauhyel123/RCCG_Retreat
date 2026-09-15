@@ -199,6 +199,35 @@ const TRANSLATIONS = {
     reset_sent: "Check your email for the reset link.",
     reset_error: "Something went wrong — check the details and try again.",
     reset_done: "Password updated — redirecting to login…",
+
+    // Post-retreat / continued training
+    dashboard_training_title: "Continue Your Training",
+    dashboard_training_sub: "Continue with the 3-month instrumental training and boot camp after the retreat.",
+    dashboard_training_cta: "Continue Your Training",
+    post_retreat_eyebrow: "Post-retreat registration",
+    post_retreat_title: "Continue Your Training",
+    post_retreat_lede: "The retreat may be over, but your growth can continue. Register for the next stage of training and let us prepare the right instructors and resources for you.",
+    post_retreat_quote: "Grow in grace. Grow in skill.",
+    post_retreat_side_title: "What's next?",
+    post_retreat_side_text: "Three months of instrumental learning, continued boot camp participation, and a certificate option.",
+    post_retreat_form_title: "Continue your training",
+    post_retreat_form_lede: "Tell the committee which opportunities you want to continue with after the retreat.",
+    post_retreat_training_label: "3-month instrumental training",
+    post_retreat_training_yes: "Yes, I want to learn an instrument for 3 months.",
+    post_retreat_training_no: "No, I do not want instrumental training at this time.",
+    post_retreat_instrument_label: "Instrument to learn",
+    post_retreat_bootcamp_label: "Continue with the boot camp",
+    post_retreat_bootcamp_yes: "Yes, I want to continue with the boot camp.",
+    post_retreat_bootcamp_no: "No, I am not continuing with the boot camp.",
+    post_retreat_certificate_label: "Certificate",
+    post_retreat_certificate_fee_label: "Certificate fee",
+    post_retreat_certificate_fee_text: "Please take note of the certificate fee.",
+    post_retreat_certificate_ack: "I acknowledge the certificate fee of ₦3,000.",
+    post_retreat_submit: "Submit registration",
+    post_retreat_success_title: "You're registered for the next stage.",
+    post_retreat_success_text: "The committee can now plan your training and boot camp participation.",
+    post_retreat_footer: "You can return to your dashboard at any time.",
+    post_retreat_dashboard: "Dashboard",
   },
   ha: {
     nav_home: "Gida",
@@ -927,18 +956,22 @@ async function completeRegistrationIfNeeded(session){
   // multiple tabs), and check-then-insert has a race window that used
   // to create duplicate rows for the same user. ignoreDuplicates means
   // a row that already exists is left untouched, not overwritten.
-  await supabaseClient.from("registrations").upsert({
+  const { error } = await supabaseClient.from("registrations").upsert({
     user_id: session.user.id,
-    full_name: meta.full_name,
-    email: session.user.email,
-    phone: meta.phone,
-    arrival_day: meta.arrival_day,
+    full_name: meta.full_name || "",
+    email: session.user.email || meta.email || "",
+    phone: meta.phone || "",
+    arrival_day: meta.arrival_day || null,
     focus_areas: meta.focus_areas || [],
-    province: meta.province,
-    zone: meta.zone,
-    area: meta.area,
-    parish: meta.parish,
-  }, { onConflict: "user_id", ignoreDuplicates: true });
+    province: meta.province || null,
+    zone: meta.zone || null,
+    area: meta.area || null,
+    parish: meta.parish || null,
+  }, { onConflict: "user_id" });
+
+  if (error) {
+    console.error("[registration sync]", error);
+  }
 }
 
 /* ---------- Password reset (request + confirm, same page) ---------- */
@@ -1194,11 +1227,15 @@ async function initDashboard(){
 
   await completeRegistrationIfNeeded(session);
 
-  const { data: registration } = await supabaseClient
+  const { data: registration, error: registrationError } = await supabaseClient
     .from("registrations")
     .select("*")
     .eq("user_id", session.user.id)
     .maybeSingle();
+
+  if (registrationError) {
+    console.error("[dashboard registration]", registrationError);
+  }
 
   const firstName = registration && registration.full_name ? registration.full_name.split(" ")[0] : "";
   greeting.textContent = dict.dashboard_greeting + (firstName ? ", " + firstName : "");
@@ -1320,24 +1357,31 @@ async function initAdminPage(){
     return;
   }
 
-  const { data: adminRow } = await supabaseClient
-    .from("admins")
-    .select("user_id")
-    .eq("user_id", session.user.id)
-    .maybeSingle();
+  const { data: isAdmin, error: adminError } = await supabaseClient.rpc("is_admin");
 
   const loading = document.getElementById("admin-loading");
   if (loading) loading.style.display = "none";
 
-  if (!adminRow){
+  if (adminError || !isAdmin){
+    if (adminError) console.error("[admin authorization]", adminError);
     document.getElementById("admin-no-access").style.display = "block";
     return;
   }
 
-  const { data: rows } = await supabaseClient
+  const { data: rows, error: rowsError } = await supabaseClient
     .from("registrations")
     .select("*")
     .order("created_at", { ascending: false });
+
+  if (rowsError) {
+    console.error("[admin registrations]", rowsError);
+    const emptyMsg = document.getElementById("admin-empty-msg");
+    if (emptyMsg) {
+      emptyMsg.textContent = "Unable to load registrations. Check the Supabase setup and RLS policies.";
+      emptyMsg.style.display = "block";
+    }
+    return;
+  }
 
   if (!rows || rows.length === 0){
     document.getElementById("admin-empty-msg").style.display = "block";
