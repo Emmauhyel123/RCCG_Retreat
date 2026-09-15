@@ -183,6 +183,11 @@ const TRANSLATIONS = {
     loc_select_zone: "Select zone",
     loc_select_area: "Select area",
     loc_select_parish: "Select parish",
+    loc_other: "Other (please specify)",
+    loc_other_placeholder_province: "e.g. your church's name and province/region",
+    loc_other_placeholder_zone: "e.g. your zone or district",
+    loc_other_placeholder_area: "e.g. your local area",
+    loc_other_placeholder_parish: "Your parish / church name",
     dashboard_location_label: "Church",
     admin_col_location: "Church (Parish / Area / Zone / Province)",
     admin_search_placeholder: "Search by name, phone, parish…",
@@ -371,6 +376,11 @@ const TRANSLATIONS = {
     loc_select_zone: "Zaɓi yanki",
     loc_select_area: "Zaɓi unguwa",
     loc_select_parish: "Zaɓi coci",
+    loc_other: "Sauran (da fatan a bayyana)",
+    loc_other_placeholder_province: "misali: sunan cocinku da lardi/yanki",
+    loc_other_placeholder_zone: "misali: yankinku",
+    loc_other_placeholder_area: "misali: unguwar ku",
+    loc_other_placeholder_parish: "Sunan coci/ikilisiyar ku",
     dashboard_location_label: "Coci",
     admin_col_location: "Coci (Coci / Unguwa / Yanki / Lardi)",
     admin_search_placeholder: "Bincika da suna, waya, coci…",
@@ -529,6 +539,11 @@ const TRANSLATIONS = {
     loc_select_zone: "Yan zone",
     loc_select_area: "Yan agbègbè",
     loc_select_parish: "Yan ìjọ",
+    loc_other: "Òmíràn (jọ̀wọ́ ṣàlàyé)",
+    loc_other_placeholder_province: "f.a.: orúkọ ìjọ rẹ àti ìpínlẹ̀/agbègbè",
+    loc_other_placeholder_zone: "f.a.: agbègbè tàbí zone rẹ",
+    loc_other_placeholder_area: "f.a.: agbègbè kékeré rẹ",
+    loc_other_placeholder_parish: "Orúkọ ìjọ rẹ",
     dashboard_location_label: "Ìjọ",
     admin_col_location: "Ìjọ (Ìjọ / Agbègbè / Zone / Ìpínlẹ̀)",
     admin_search_placeholder: "Wá orúkọ, fóònù, ìjọ…",
@@ -687,6 +702,11 @@ const TRANSLATIONS = {
     loc_select_zone: "Họrọ zon",
     loc_select_area: "Họrọ mpaghara nta",
     loc_select_parish: "Họrọ ụka",
+    loc_other: "Ọzọ (biko kọwapụta)",
+    loc_other_placeholder_province: "dmk: aha ụka gị na mpaghara/zon",
+    loc_other_placeholder_zone: "dmk: zon gị",
+    loc_other_placeholder_area: "dmk: mpaghara nta gị",
+    loc_other_placeholder_parish: "Aha ụka gị",
     dashboard_location_label: "Ụka",
     admin_col_location: "Ụka (Ụka / Mpaghara nta / Zon / Mpaghara)",
     admin_search_placeholder: "Chọọ site n'aha, ekwentị, ụka…",
@@ -803,10 +823,10 @@ function initRegisterForm(){
     const password = form.querySelector("#reg-password").value.trim();
     const arrival_day = form.querySelector("#reg-day").value;
     const focus_areas = Array.from(form.querySelectorAll('input[name="focus_areas"]:checked')).map(function(cb){ return cb.value; });
-    const province = form.querySelector("#reg-province").value;
-    const zone = form.querySelector("#reg-zone").value;
-    const area = form.querySelector("#reg-area").value;
-    const parish = form.querySelector("#reg-parish").value;
+    const province = resolveCascadeValue(form.querySelector("#reg-province"), form.querySelector("#reg-province-other"));
+    const zone = resolveCascadeValue(form.querySelector("#reg-zone"), form.querySelector("#reg-zone-other"));
+    const area = resolveCascadeValue(form.querySelector("#reg-area"), form.querySelector("#reg-area-other"));
+    const parish = resolveCascadeValue(form.querySelector("#reg-parish"), form.querySelector("#reg-parish-other"));
 
     if (!full_name || !phone || !email || !password){
       msg.textContent = dict.register_msg_missing;
@@ -891,12 +911,38 @@ function initWizardNav(form){
 }
 
 /* ---------- Cascading Province → Zone → Area → Parish ---------- */
+/* Every level (province/zone/area/parish) gets an "Other (please
+   specify)" option appended after its normal choices. Picking it
+   reveals a free-text input for that level — this is what lets
+   someone from outside the RCCG Taraba Province 2 structure (or an
+   RCCG member whose specific zone/area/parish isn't in the list
+   yet) still register. Choosing "Other" at any level also drops
+   every level below it straight into free-text mode, since there's
+   no further cascade data to offer once you've stepped off the
+   known tree. */
+const CASCADE_OTHER_VALUE = "__other__";
+
+function resolveCascadeValue(select, otherInput){
+  if (otherInput && otherInput.style.display !== "none"){
+    return otherInput.value.trim();
+  }
+  return select ? select.value : "";
+}
+
 function initCascadeSelects(form){
   const provinceSel = form.querySelector("#reg-province");
   if (!provinceSel || typeof LOCATION_DATA === "undefined") return;
   const zoneSel = form.querySelector("#reg-zone");
   const areaSel = form.querySelector("#reg-area");
   const parishSel = form.querySelector("#reg-parish");
+
+  const provinceOther = form.querySelector("#reg-province-other");
+  const zoneOther = form.querySelector("#reg-zone-other");
+  const areaOther = form.querySelector("#reg-area-other");
+  const parishOther = form.querySelector("#reg-parish-other");
+
+  const dict = TRANSLATIONS[getLang()] || TRANSLATIONS.en;
+  const otherLabel = dict.loc_other || "Other (please specify)";
 
   function fillSelect(select, options, placeholder){
     select.innerHTML = "";
@@ -908,38 +954,95 @@ function initCascadeSelects(form){
       o.value = opt; o.textContent = opt;
       select.appendChild(o);
     });
+    const otherOpt = document.createElement("option");
+    otherOpt.value = CASCADE_OTHER_VALUE;
+    otherOpt.textContent = otherLabel;
+    select.appendChild(otherOpt);
   }
 
-  function resetBelow(select){
+  function showOther(input){ if (input) input.style.display = "block"; }
+  function hideOther(input){ if (input){ input.style.display = "none"; input.value = ""; } }
+
+  // Normal reset: empties a select, disables it, and makes sure it
+  // (and its "other" input) are visible again for when a parent
+  // selection changes back from "Other" to a real value.
+  function resetLevel(select, otherInput){
     select.innerHTML = "";
     select.disabled = true;
+    select.style.display = "";
+    hideOther(otherInput);
   }
 
-  const dict = TRANSLATIONS[getLang()] || TRANSLATIONS.en;
+  // Used when a parent level is "Other": there's no cascade data to
+  // build this select from, so skip straight to free-text entry.
+  function forceOtherMode(select, otherInput){
+    select.innerHTML = "";
+    select.disabled = true;
+    select.style.display = "none";
+    showOther(otherInput);
+  }
+
   fillSelect(provinceSel, Object.keys(LOCATION_DATA), dict.loc_select_province || "Select province");
-  resetBelow(zoneSel); resetBelow(areaSel); resetBelow(parishSel);
+  hideOther(provinceOther);
+  resetLevel(zoneSel, zoneOther);
+  resetLevel(areaSel, areaOther);
+  resetLevel(parishSel, parishOther);
 
   provinceSel.addEventListener("change", function(){
+    if (provinceSel.value === CASCADE_OTHER_VALUE){
+      showOther(provinceOther);
+      forceOtherMode(zoneSel, zoneOther);
+      forceOtherMode(areaSel, areaOther);
+      forceOtherMode(parishSel, parishOther);
+      return;
+    }
+    hideOther(provinceOther);
     const zones = LOCATION_DATA[provinceSel.value] || {};
+    zoneSel.style.display = "";
     fillSelect(zoneSel, Object.keys(zones), dict.loc_select_zone || "Select zone");
     zoneSel.disabled = false;
-    resetBelow(areaSel); resetBelow(parishSel);
+    resetLevel(areaSel, areaOther);
+    resetLevel(parishSel, parishOther);
   });
 
   zoneSel.addEventListener("change", function(){
+    if (zoneSel.value === CASCADE_OTHER_VALUE){
+      showOther(zoneOther);
+      forceOtherMode(areaSel, areaOther);
+      forceOtherMode(parishSel, parishOther);
+      return;
+    }
+    hideOther(zoneOther);
     const zones = LOCATION_DATA[provinceSel.value] || {};
     const areas = zones[zoneSel.value] || {};
+    areaSel.style.display = "";
     fillSelect(areaSel, Object.keys(areas), dict.loc_select_area || "Select area");
     areaSel.disabled = false;
-    resetBelow(parishSel);
+    resetLevel(parishSel, parishOther);
   });
 
   areaSel.addEventListener("change", function(){
+    if (areaSel.value === CASCADE_OTHER_VALUE){
+      showOther(areaOther);
+      forceOtherMode(parishSel, parishOther);
+      return;
+    }
+    hideOther(areaOther);
     const zones = LOCATION_DATA[provinceSel.value] || {};
     const areas = zones[zoneSel.value] || {};
     const parishes = areas[areaSel.value] || [];
+    parishSel.style.display = "";
     fillSelect(parishSel, parishes, dict.loc_select_parish || "Select parish");
     parishSel.disabled = false;
+    hideOther(parishOther);
+  });
+
+  parishSel.addEventListener("change", function(){
+    if (parishSel.value === CASCADE_OTHER_VALUE){
+      showOther(parishOther);
+    } else {
+      hideOther(parishOther);
+    }
   });
 }
 
