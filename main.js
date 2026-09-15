@@ -108,6 +108,35 @@ const TRANSLATIONS = {
     dashboard_empty: "We couldn't find a registration linked to this account yet.",
     dashboard_signout: "Sign out",
     dashboard_not_set: "Not provided",
+    // Dashboard app shell (Home / Pass / More)
+    dashboard_welcome_back: "Welcome back",
+    dashboard_open_pass: "Open pass",
+    dashboard_essentials_kicker: "At a glance",
+    dashboard_essentials_title: "Your essentials",
+    dashboard_badge_chorister: "Chorister",
+    dashboard_my_registration: "My registration",
+    dashboard_registered_on: "Registered",
+    dashboard_card_attending: "Attending",
+    dashboard_card_focus: "Focus areas",
+    dashboard_card_church: "Where you worship",
+    dashboard_tab_home: "Home",
+    dashboard_tab_pass: "Pass",
+    dashboard_tab_more: "More",
+    dashboard_event_name: "RCCG Taraba Province 2",
+    dashboard_event_sub: "Choir Retreat & Concert 2026",
+    dashboard_scan: "Scan at check-in",
+    dashboard_delegate: "Delegate",
+    dashboard_pass_id: "Pass ID",
+    dashboard_save_pass: "Save pass",
+    dashboard_more_schedule: "Full schedule",
+    dashboard_more_schedule_sub: "Sessions across both days",
+    dashboard_more_ministers: "Ministers",
+    dashboard_more_ministers_sub: "Who's leading the retreat",
+    dashboard_more_connect: "Connect",
+    dashboard_more_connect_sub: "Social links & the flyer",
+    dashboard_more_admin: "Admin portal",
+    dashboard_more_admin_sub: "Committee access",
+    dashboard_more_edit_note: "Spotted a typo in your details? Reach the committee via Connect.",
     // Admin page
     admin_kicker: "Committee access",
     admin_title: "All registrations",
@@ -984,6 +1013,173 @@ function initPasswordResetPage(){
   }
 }
 
+/* ---------- Dashboard tab switching (Home / Pass / More) ---------- */
+function initDashboardTabs(){
+  const buttons = Array.from(document.querySelectorAll(".dash-tabbar-btn"));
+  const tabs = Array.from(document.querySelectorAll(".dash-tab"));
+  if (!buttons.length || !tabs.length) return;
+
+  function showTab(name){
+    tabs.forEach(function(t){ t.hidden = t.dataset.tab !== name; });
+    buttons.forEach(function(b){ b.classList.toggle("active", b.dataset.target === name); });
+    window.scrollTo(0, 0);
+  }
+
+  buttons.forEach(function(b){
+    b.addEventListener("click", function(){ showTab(b.dataset.target); });
+  });
+
+  const openPassBtn = document.getElementById("dash-open-pass");
+  if (openPassBtn){
+    openPassBtn.addEventListener("click", function(){ showTab("pass"); });
+  }
+
+  showTab("home");
+}
+
+/* Short, stable, human-typeable IDs derived from a UUID — not stored,
+   just formatted client-side from the real database id. */
+function shortId(uuid, prefix){
+  return prefix + uuid.replace(/-/g, "").slice(0, 8).toUpperCase();
+}
+
+/* Builds a full "pass card" PNG (QR + delegate details) client-side
+   and triggers a download — no server round-trip needed. */
+async function downloadPassCard(qrText, delegateName, passId, tagLabels){
+  if (document.fonts && document.fonts.ready){
+    try { await document.fonts.ready; } catch (e) { /* fall back to default fonts */ }
+  }
+
+  const qrDataUrl = await new Promise(function(resolve, reject){
+    QRCode.toDataURL(qrText, { width: 480, margin: 1, color: { dark: "#241014", light: "#00000000" } }, function(err, url){
+      if (err) reject(err); else resolve(url);
+    });
+  });
+  const qrImg = await new Promise(function(resolve, reject){
+    const img = new Image();
+    img.onload = function(){ resolve(img); };
+    img.onerror = reject;
+    img.src = qrDataUrl;
+  });
+
+  const W = 680, H = 980;
+  const canvas = document.createElement("canvas");
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext("2d");
+
+  // Background + gold border
+  ctx.fillStyle = "#2b0f16";
+  ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = "#c9a24b";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(14, 14, W - 28, H - 28);
+
+  // Header
+  ctx.fillStyle = "#e6cf9c";
+  ctx.font = "600 15px 'Work Sans', sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("RCCG TARABA PROVINCE 2", W / 2, 70);
+  ctx.fillStyle = "#f4ead9";
+  ctx.font = "600 30px 'Fraunces', Georgia, serif";
+  ctx.fillText("Choir Retreat & Concert 2026", W / 2, 108);
+
+  // QR on white card
+  const qrSize = 360, qrX = (W - qrSize) / 2, qrY = 150;
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(qrX, qrY, qrSize, qrSize);
+  ctx.drawImage(qrImg, qrX + 20, qrY + 20, qrSize - 40, qrSize - 40);
+
+  // "Scan at check-in" pill
+  ctx.fillStyle = "rgba(163,33,47,0.18)";
+  const pillY = qrY + qrSize + 26;
+  roundRect(ctx, W / 2 - 110, pillY, 220, 34, 17);
+  ctx.fill();
+  ctx.fillStyle = "#e26a75";
+  ctx.font = "600 13px 'Work Sans', sans-serif";
+  ctx.fillText("SCAN AT CHECK-IN", W / 2, pillY + 22);
+
+  // Dashed divider
+  ctx.strokeStyle = "#4a1b24";
+  ctx.setLineDash([6, 6]);
+  ctx.beginPath();
+  ctx.moveTo(50, pillY + 64);
+  ctx.lineTo(W - 50, pillY + 64);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Delegate block
+  let y = pillY + 108;
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#c9a24b";
+  ctx.font = "600 13px 'Work Sans', sans-serif";
+  ctx.fillText("DELEGATE", 50, y);
+  y += 38;
+  ctx.fillStyle = "#f4ead9";
+  ctx.font = "600 32px 'Fraunces', Georgia, serif";
+  wrapText(ctx, delegateName.toUpperCase(), 50, y, W - 100, 36);
+  y += Math.ceil(delegateName.length / 18) * 36 + 30;
+
+  ctx.fillStyle = "#c9a24b";
+  ctx.font = "600 13px 'Work Sans', sans-serif";
+  ctx.fillText("PASS ID", 50, y);
+  y += 30;
+  ctx.fillStyle = "#f4ead9";
+  ctx.font = "500 20px 'Fraunces', Georgia, serif";
+  ctx.fillText(passId, 50, y);
+
+  // Tags
+  y += 34;
+  let tagX = 50;
+  tagLabels.forEach(function(label){
+    ctx.font = "600 12.5px 'Work Sans', sans-serif";
+    const w = ctx.measureText(label).width + 26;
+    ctx.fillStyle = "#241014";
+    roundRect(ctx, tagX, y, w, 30, 15);
+    ctx.fill();
+    ctx.fillStyle = "#f4ead9";
+    ctx.textAlign = "left";
+    ctx.fillText(label, tagX + 13, y + 20);
+    tagX += w + 10;
+  });
+
+  // Footer
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#e6cf9c";
+  ctx.font = "400 12px 'Work Sans', sans-serif";
+  ctx.fillText("rccg-retreat.vercel.app", W / 2, H - 36);
+
+  const link = document.createElement("a");
+  link.download = passId + "-pass.png";
+  link.href = canvas.toDataURL("image/png");
+  link.click();
+}
+
+function roundRect(ctx, x, y, w, h, r){
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+  const words = text.split(" ");
+  let line = "";
+  words.forEach(function(word){
+    const test = line ? line + " " + word : word;
+    if (ctx.measureText(test).width > maxWidth && line){
+      ctx.fillText(line, x, y);
+      line = word;
+      y += lineHeight;
+    } else {
+      line = test;
+    }
+  });
+  if (line) ctx.fillText(line, x, y);
+}
+
 /* ---------- Dashboard (reads the logged-in user's registration) ---------- */
 async function initDashboard(){
   const greeting = document.getElementById("dashboard-greeting");
@@ -996,8 +1192,6 @@ async function initDashboard(){
     return;
   }
 
-  greeting.textContent = dict.dashboard_greeting + (session.user.email ? " — " + session.user.email : "");
-
   await completeRegistrationIfNeeded(session);
 
   const { data: registration } = await supabaseClient
@@ -1006,17 +1200,101 @@ async function initDashboard(){
     .eq("user_id", session.user.id)
     .maybeSingle();
 
+  const firstName = registration && registration.full_name ? registration.full_name.split(" ")[0] : "";
+  greeting.textContent = dict.dashboard_greeting + (firstName ? ", " + firstName : "");
+
+  const userId = shortId(session.user.id, "RET-");
+  const heroName = document.getElementById("dash-hero-name");
+  const heroId = document.getElementById("dash-hero-id");
+  if (heroName) heroName.textContent = (registration && registration.full_name) || session.user.email || "—";
+  if (heroId) heroId.textContent = userId;
+
   if (registration){
-    document.getElementById("dash-name").textContent = registration.full_name || dict.dashboard_not_set;
-    document.getElementById("dash-phone").textContent = registration.phone || dict.dashboard_not_set;
-    document.getElementById("dash-day").textContent = registration.arrival_day || dict.dashboard_not_set;
-    document.getElementById("dash-focus").textContent = (registration.focus_areas && registration.focus_areas.length) ? registration.focus_areas.join(", ") : dict.dashboard_not_set;
-    const locationParts = [registration.parish, registration.area, registration.zone, registration.province].filter(Boolean);
-    document.getElementById("dash-location").textContent = locationParts.length ? locationParts.join(", ") : dict.dashboard_not_set;
-    document.getElementById("dashboard-card").style.display = "block";
+    const attendLabel = dict["register_day_" + registration.arrival_day] || registration.arrival_day || dict.dashboard_not_set;
+    const cardSub = document.getElementById("dash-card-sub");
+    if (cardSub){
+      const registeredOn = registration.created_at ? new Date(registration.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
+      cardSub.textContent = dict.dashboard_registered_on + (registeredOn ? " " + registeredOn : "");
+    }
+
+    const attendCard = document.getElementById("dash-attend-value");
+    if (attendCard) attendCard.textContent = attendLabel;
+
+    const focusWrap = document.getElementById("dash-focus-chips");
+    if (focusWrap){
+      focusWrap.innerHTML = "";
+      (registration.focus_areas || []).forEach(function(f){
+        const span = document.createElement("span");
+        span.className = "dash-chip";
+        span.textContent = f;
+        focusWrap.appendChild(span);
+      });
+      if (!registration.focus_areas || !registration.focus_areas.length){
+        focusWrap.textContent = dict.dashboard_not_set;
+      }
+    }
+
+    const churchValue = document.getElementById("dash-church-value");
+    if (churchValue){
+      const parts = [registration.parish, registration.area, registration.zone, registration.province].filter(Boolean);
+      churchValue.textContent = parts.length ? parts.join(" • ") : dict.dashboard_not_set;
+    }
+
+    const homeEssentials = document.getElementById("dash-essentials");
+    if (homeEssentials) homeEssentials.style.display = "block";
+
+    // Pass tab
+    const passId = shortId(registration.id, "RET26-");
+    const qrText = "RCCG-RETREAT-2026|" + registration.id + "|" + registration.full_name;
+    const passName = document.getElementById("dash-pass-name");
+    const passIdEl = document.getElementById("dash-pass-id");
+    const passTags = document.getElementById("dash-pass-tags");
+    if (passName) passName.textContent = registration.full_name;
+    if (passIdEl) passIdEl.textContent = passId;
+    if (passTags){
+      passTags.innerHTML = "";
+      const tagValues = [dict.dashboard_status_confirmed, attendLabel];
+      tagValues.forEach(function(t, i){
+        const span = document.createElement("span");
+        if (i === 1) span.classList.add("alt");
+        span.textContent = t;
+        passTags.appendChild(span);
+      });
+    }
+
+    const qrHolder = document.getElementById("dash-qr-canvas");
+    if (qrHolder && window.QRCode){
+      qrHolder.innerHTML = "";
+      QRCode.toCanvas(qrText, { width: 220, margin: 1, color: { dark: "#241014", light: "#00000000" } }, function(err, canvas){
+        if (!err) qrHolder.appendChild(canvas);
+      });
+    }
+
+    const passTicket = document.getElementById("dash-pass-ticket");
+    if (passTicket) passTicket.style.display = "block";
+
+    const savePassBtn = document.getElementById("dash-save-pass");
+    if (savePassBtn){
+      savePassBtn.addEventListener("click", function(){
+        downloadPassCard(qrText, registration.full_name, passId, [dict.dashboard_status_confirmed, attendLabel]);
+      });
+    }
   } else {
-    document.getElementById("dashboard-empty").style.display = "block";
-    document.getElementById("dashboard-empty-cta").style.display = "inline-block";
+    const emptyEl = document.getElementById("dashboard-empty");
+    const emptyCta = document.getElementById("dashboard-empty-cta");
+    if (emptyEl) emptyEl.style.display = "block";
+    if (emptyCta) emptyCta.style.display = "inline-block";
+    const passEmpty = document.getElementById("dash-pass-empty");
+    if (passEmpty) passEmpty.style.display = "block";
+  }
+
+  // Admin link only shows for committee accounts
+  const adminLink = document.getElementById("dash-admin-link");
+  if (adminLink){
+    try {
+      const { data: isAdmin } = await supabaseClient.rpc("is_admin");
+      if (isAdmin) adminLink.style.display = "flex";
+    } catch (e) { /* not an admin, or rpc unavailable — link stays hidden */ }
   }
 
   const signoutBtn = document.getElementById("signout-btn");
@@ -1177,6 +1455,7 @@ document.addEventListener("DOMContentLoaded", function(){
   safeInit(initRegisterForm);
   safeInit(initPasswordResetPage);
   safeInit(initDashboard);
+  safeInit(initDashboardTabs);
   safeInit(initAdminPage);
   safeInit(initCopyButtons);
 });

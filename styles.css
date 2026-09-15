@@ -580,3 +580,114 @@ footer a:hover{ opacity:1; text-decoration:underline; }
   .gallery{ grid-template-columns: 1fr 1fr; gap: 3px; }
   .stat-row{ gap: 12px; }
 }
+
+/* ============================================================
+   Dashboard app shell (dashboard.html) — Home / Pass / More
+   Same booklet palette (wine/crimson/gold), mobile tab nav layered on.
+   ============================================================ */
+.dash-shell{
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 88px 20px 120px;
+}
+.dash-kicker{ color: var(--gold-soft); font-size:13px; letter-spacing:.08em; text-transform:uppercase; }
+.dash-title{ font-family: var(--serif); font-size: clamp(24px,4vw,32px); margin-top:8px; }
+
+.dash-hero{
+  background: linear-gradient(155deg, var(--crimson-2), var(--wine) 75%);
+  border: 1px solid var(--gold);
+  border-radius: var(--radius);
+  padding: 26px 24px;
+  margin-top: 28px;
+  position: relative;
+}
+.dash-hero-top{ display:flex; justify-content:space-between; align-items:center; }
+.dash-hero-crest{
+  width:40px; height:40px; border-radius:50%; border:1px solid var(--gold);
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--serif); font-size:14px; color: var(--gold);
+  flex-shrink:0;
+}
+.dash-hero-badge{
+  border:1px solid var(--gold-soft); color: var(--gold-soft);
+  font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+  padding: 5px 12px; border-radius:999px;
+}
+.dash-hero-eyebrow{ margin-top:22px; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color: var(--gold-soft); opacity:.85; }
+.dash-hero-name{ font-family: var(--serif); font-size: 26px; margin-top:4px; color: var(--cream); }
+.dash-hero-id{ font-size:13px; margin-top:6px; opacity:.75; letter-spacing:.02em; }
+.dash-hero-id span{ font-weight:600; opacity:1; }
+.dash-hero-btn{ margin-top:20px; width:100%; text-align:center; border-radius:999px; }
+
+.dash-section-label{ margin-top:38px; color: var(--gold-soft); font-size:12px; letter-spacing:.1em; text-transform:uppercase; }
+.dash-section-title{ font-family: var(--serif); font-size:22px; margin-top:4px; }
+
+.dash-card{
+  background: var(--wine);
+  border: 1px solid var(--wine-line);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-top: 14px;
+}
+.dash-card-accent{ border-color: var(--gold); }
+.dash-card-top{ display:flex; justify-content:space-between; align-items:center; }
+.dash-card-icon{ width:34px; height:34px; display:flex; align-items:center; justify-content:center; border:1px solid var(--wine-line); border-radius:50%; flex-shrink:0; }
+.dash-card-icon svg{ width:16px; height:16px; stroke: var(--gold-soft); fill:none; }
+.dash-status-pill{ font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#8fd19e; }
+.dash-card-title{ font-family: var(--serif); font-size:17px; margin-top:12px; }
+.dash-card-sub, .dash-card-value{ font-size:14px; opacity:.85; margin-top:4px; }
+.dash-chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.dash-chip{ font-size:12.5px; border:1px solid var(--wine-line); border-radius:999px; padding:5px 11px; opacity:.9; }
+
+/* Pass ticket tweaks (extends .ticket from the booklet system) */
+.dash-pass-ticket{ margin-top:28px; }
+.dash-qr-wrap{ display:flex; justify-content:center; padding: 6px 0 18px; }
+.dash-qr-wrap canvas{ border-radius: var(--radius); }
+.dash-scan-pill{
+  display:inline-block; margin-top:12px;
+  background: rgba(163,33,47,0.1); color: var(--crimson);
+  font-size:12px; letter-spacing:.05em; text-transform:uppercase;
+  padding:6px 12px; border-radius:999px;
+}
+.dash-pass-delegate-label, .dash-pass-id-label{ font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color: var(--charcoal-70); margin-top:4px; }
+.dash-pass-delegate-name{ font-family: var(--serif); font-size:24px; margin-top:4px; }
+.dash-pass-id-value{ font-family: var(--serif); font-size:16px; margin-top:2px; }
+.dash-pass-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+.dash-pass-tags span{ font-size:12px; border-radius:999px; padding:5px 12px; background: var(--charcoal); color: var(--cream); }
+.dash-pass-tags span.alt{ background: rgba(163,33,47,0.12); color: var(--crimson); }
+#dash-save-pass{ margin-top:22px; width:100%; border-radius:999px; }
+
+/* More tab */
+.dash-more-list{ margin-top:28px; display:flex; flex-direction:column; }
+.dash-more-item{
+  display:flex; align-items:center; gap:14px;
+  padding: 16px 4px;
+  border-top:1px solid var(--wine-line);
+  color: var(--cream); text-decoration:none;
+  font-size:15px; background:none; border-left:none; border-right:none; border-bottom:none;
+  width:100%; text-align:left; cursor:pointer; font-family: var(--sans);
+}
+.dash-more-item:first-child{ border-top:none; }
+.dash-more-item svg{ width:18px; height:18px; stroke: var(--gold-soft); flex-shrink:0; fill:none; }
+.dash-more-item .dash-more-sub{ display:block; font-size:12.5px; opacity:.65; margin-top:2px; }
+.dash-more-signout{ color: #e2828b; }
+.dash-more-signout svg{ stroke: var(--crimson); }
+.dash-more-note{ margin-top:22px; font-size:13px; opacity:.7; line-height:1.5; }
+.dash-more-note a{ color: var(--gold-soft); }
+
+/* Bottom tab bar */
+.dash-tabbar{
+  position: fixed; left:0; right:0; bottom:0;
+  display:flex;
+  background: var(--wine);
+  border-top: 1px solid var(--wine-line);
+  padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
+  z-index: 40;
+}
+.dash-tabbar-btn{
+  flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;
+  background:none; border:none; color: var(--cream); opacity:.6;
+  font-family: var(--sans); font-size:11.5px; padding:6px 0; cursor:pointer;
+}
+.dash-tabbar-btn svg{ width:20px; height:20px; stroke: currentColor; fill:none; }
+.dash-tabbar-btn.active{ opacity:1; color: var(--gold); }
