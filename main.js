@@ -893,15 +893,12 @@ async function completeRegistrationIfNeeded(session){
   const meta = session.user.user_metadata || {};
   if (!meta.full_name) return; // nothing pending to write
 
-  const { data: existing } = await supabaseClient
-    .from("registrations")
-    .select("id")
-    .eq("user_id", session.user.id)
-    .maybeSingle();
-
-  if (existing) return;
-
-  await supabaseClient.from("registrations").insert({
+  // Upsert on user_id (unique) instead of check-then-insert — this
+  // page can run concurrently (confirmation redirect, dashboard load,
+  // multiple tabs), and check-then-insert has a race window that used
+  // to create duplicate rows for the same user. ignoreDuplicates means
+  // a row that already exists is left untouched, not overwritten.
+  await supabaseClient.from("registrations").upsert({
     user_id: session.user.id,
     full_name: meta.full_name,
     email: session.user.email,
@@ -912,7 +909,7 @@ async function completeRegistrationIfNeeded(session){
     zone: meta.zone,
     area: meta.area,
     parish: meta.parish,
-  });
+  }, { onConflict: "user_id", ignoreDuplicates: true });
 }
 
 /* ---------- Password reset (request + confirm, same page) ---------- */
