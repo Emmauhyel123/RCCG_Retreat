@@ -1,0 +1,8 @@
+/* Add to styles.css near the Dashboard app shell styles. */
+.dash-training-card{
+  border-color:var(--gold);
+  background:linear-gradient(145deg,var(--wine),var(--crimson-2));
+}
+.dash-training-card .dash-card-title{font-size:21px}
+.dash-training-card .dash-card-sub{line-height:1.55;max-width:44ch}
+.dash-training-btn{display:block;width:100%;margin-top:18px;text-align:center;border-radius:999px;text-decoration:none}
