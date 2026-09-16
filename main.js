@@ -1925,3 +1925,4 @@ document.addEventListener("DOMContentLoaded", function(){
   safeInit(initAdminPage);
   safeInit(initCopyButtons);
 });
+window.location.replace("index.html");
