@@ -137,6 +137,56 @@
         </table>
       </div>
     </div>
+
+    <div id="admin-bootcamp-section" style="display:none; margin-top:56px;">
+      <h2 style="font-size: clamp(22px,2.8vw,30px);" data-i18n="admin_bootcamp_title">Boot camp / post-retreat registrations</h2>
+      <p style="opacity:.75; margin-top:8px;" data-i18n="admin_bootcamp_lede">Everyone who submitted the post-retreat training &amp; boot camp form.</p>
+
+      <p id="admin-bootcamp-empty-msg" style="display:none; margin-top:20px; opacity:.85;" data-i18n="admin_bootcamp_empty">No one has submitted the post-retreat / boot camp form yet.</p>
+
+      <div id="admin-bootcamp-wrap" style="display:none; margin-top:20px;">
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="num" id="admin-bootcamp-total-count">0</div>
+            <div class="label" data-i18n="admin_bootcamp_total_label">Submitted this form</div>
+          </div>
+          <div class="stat-box">
+            <div class="num" id="admin-bootcamp-continuing-count">0</div>
+            <div class="label" data-i18n="admin_bootcamp_continuing_label">Continuing with boot camp</div>
+          </div>
+          <div class="stat-box">
+            <div class="num" id="admin-bootcamp-training-count">0</div>
+            <div class="label" data-i18n="admin_bootcamp_training_label">Want instrumental training</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin-bottom:18px;">
+          <input type="search" id="admin-bootcamp-search" data-i18n-placeholder="admin_search_placeholder" placeholder="Search by name, phone, parish…" style="flex:1; min-width:220px; padding:11px 14px; border:1px solid var(--paper-line); border-radius:var(--radius); font-family:var(--sans); font-size:14.5px;">
+          <div class="export-buttons">
+            <button id="admin-bootcamp-export-btn" class="btn btn-line" style="border-color:var(--crimson); color:var(--crimson);" data-i18n="admin_export">Export as CSV</button>
+            <button id="admin-bootcamp-export-excel-btn" class="btn btn-line" style="border-color:var(--crimson); color:var(--crimson);" data-i18n="admin_export_excel">Export as Excel</button>
+          </div>
+        </div>
+
+        <div class="admin-table-scroll">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th data-i18n="admin_col_name">Name</th>
+                <th data-i18n="admin_col_email">Email</th>
+                <th data-i18n="admin_col_phone">Phone</th>
+                <th data-i18n="admin_bootcamp_col_training">Instrumental training</th>
+                <th data-i18n="admin_bootcamp_col_instrument">Instrument</th>
+                <th data-i18n="admin_bootcamp_col_bootcamp">Boot camp</th>
+                <th data-i18n="admin_bootcamp_col_cert">Certificate fee ack.</th>
+                <th data-i18n="admin_col_date">Registered</th>
+              </tr>
+            </thead>
+            <tbody id="admin-bootcamp-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 

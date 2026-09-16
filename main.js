@@ -157,6 +157,16 @@ const TRANSLATIONS = {
     admin_loading: "Loading registrations…",
     admin_empty: "No one has registered yet.",
     admin_no_access: "This account doesn't have committee access to view registrations.",
+    admin_bootcamp_title: "Boot camp / post-retreat registrations",
+    admin_bootcamp_lede: "Everyone who submitted the post-retreat training & boot camp form.",
+    admin_bootcamp_empty: "No one has submitted the post-retreat / boot camp form yet.",
+    admin_bootcamp_total_label: "Submitted this form",
+    admin_bootcamp_continuing_label: "Continuing with boot camp",
+    admin_bootcamp_training_label: "Want instrumental training",
+    admin_bootcamp_col_training: "Instrumental training",
+    admin_bootcamp_col_instrument: "Instrument",
+    admin_bootcamp_col_bootcamp: "Boot camp",
+    admin_bootcamp_col_cert: "Certificate fee ack.",
     // Social page
     social_eyebrow: "Stay in the loop",
     social_title: "Connect with the choir",
@@ -1476,6 +1486,11 @@ async function initAdminPage(){
     return;
   }
 
+  // Boot camp / post-retreat registrations load independently of the
+  // main registrations table below, so it still shows up even if that
+  // table errors out or is empty.
+  loadBootcampAdmin();
+
   const { data: rows, error: rowsError } = await supabaseClient
     .from("registrations")
     .select("*")
@@ -1535,6 +1550,158 @@ async function initAdminPage(){
       window.location.href = "index.html";
     });
   }
+}
+
+/* ---------- Admin: boot camp / post-retreat registrations ---------- */
+let ADMIN_BOOTCAMP_ROWS = [];
+
+async function loadBootcampAdmin(){
+  const section = document.getElementById("admin-bootcamp-section");
+  if (!section) return;
+  section.style.display = "block";
+
+  const [{ data: prRows, error: prError }, { data: regRows, error: regError }] = await Promise.all([
+    supabaseClient
+      .from("post_retreat_registrations")
+      .select("*")
+      .order("created_at", { ascending: false }),
+    supabaseClient
+      .from("registrations")
+      .select("user_id, full_name, email, phone, parish, area, zone, province")
+  ]);
+
+  if (prError) {
+    console.error("[admin post_retreat_registrations]", prError);
+    const emptyMsg = document.getElementById("admin-bootcamp-empty-msg");
+    if (emptyMsg) {
+      emptyMsg.textContent = "Unable to load boot camp registrations. Make sure post-retreat-sql.sql has been run in Supabase.";
+      emptyMsg.style.display = "block";
+    }
+    return;
+  }
+
+  if (regError) console.error("[admin registrations lookup]", regError);
+
+  if (!prRows || prRows.length === 0){
+    document.getElementById("admin-bootcamp-empty-msg").style.display = "block";
+    return;
+  }
+
+  const regByUserId = {};
+  (regRows || []).forEach(function(r){ regByUserId[r.user_id] = r; });
+
+  const joined = prRows.map(function(pr){
+    const reg = regByUserId[pr.user_id] || {};
+    return Object.assign({}, pr, {
+      full_name: reg.full_name || "",
+      email: reg.email || "",
+      phone: reg.phone || "",
+      parish: reg.parish || "",
+      area: reg.area || "",
+      zone: reg.zone || "",
+      province: reg.province || ""
+    });
+  });
+
+  ADMIN_BOOTCAMP_ROWS = joined;
+  document.getElementById("admin-bootcamp-total-count").textContent = joined.length;
+  document.getElementById("admin-bootcamp-continuing-count").textContent = joined.filter(function(r){ return r.continue_bootcamp; }).length;
+  document.getElementById("admin-bootcamp-training-count").textContent = joined.filter(function(r){ return r.instrument_training; }).length;
+  document.getElementById("admin-bootcamp-wrap").style.display = "block";
+
+  renderBootcampRows(joined);
+
+  const searchInput = document.getElementById("admin-bootcamp-search");
+  if (searchInput){
+    searchInput.addEventListener("input", function(){
+      const q = searchInput.value.trim().toLowerCase();
+      const filtered = !q ? ADMIN_BOOTCAMP_ROWS : ADMIN_BOOTCAMP_ROWS.filter(function(r){
+        return [r.full_name, r.email, r.phone, r.parish, r.area, r.zone, r.province, r.instrument]
+          .some(function(v){ return v && String(v).toLowerCase().includes(q); });
+      });
+      renderBootcampRows(filtered);
+    });
+  }
+
+  const exportBtn = document.getElementById("admin-bootcamp-export-btn");
+  if (exportBtn){
+    exportBtn.addEventListener("click", function(){ exportBootcampCsv(ADMIN_BOOTCAMP_ROWS); });
+  }
+
+  const exportExcelBtn = document.getElementById("admin-bootcamp-export-excel-btn");
+  if (exportExcelBtn){
+    exportExcelBtn.addEventListener("click", function(){ exportBootcampExcel(ADMIN_BOOTCAMP_ROWS); });
+  }
+}
+
+function renderBootcampRows(rows){
+  const tbody = document.getElementById("admin-bootcamp-table-body");
+  if (!tbody) return;
+  tbody.innerHTML = "";
+  rows.forEach(function(r){
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      "<td class=\"name-cell\">" + escapeHtml(r.full_name || "—") + "</td>" +
+      "<td>" + escapeHtml(r.email || "") + "</td>" +
+      "<td>" + escapeHtml(r.phone || "") + "</td>" +
+      "<td>" + (r.instrument_training ? "Yes" : "No") + "</td>" +
+      "<td>" + escapeHtml(r.instrument || "") + "</td>" +
+      "<td>" + (r.continue_bootcamp ? "Yes" : "No") + "</td>" +
+      "<td>" + (r.certificate_fee_acknowledged ? "Yes" : "No") + "</td>" +
+      "<td>" + (r.created_at ? new Date(r.created_at).toLocaleDateString() : "") + "</td>";
+    tbody.appendChild(tr);
+  });
+}
+
+function exportBootcampCsv(rows){
+  const header = ["Full name","Email","Phone","Instrumental training","Instrument","Continuing boot camp","Certificate fee acknowledged","Registered at"];
+  const lines = [header.join(",")];
+  rows.forEach(function(r){
+    const line = [
+      r.full_name, r.email, r.phone,
+      r.instrument_training ? "Yes" : "No",
+      r.instrument,
+      r.continue_bootcamp ? "Yes" : "No",
+      r.certificate_fee_acknowledged ? "Yes" : "No",
+      r.created_at
+    ]
+      .map(function(v){ return '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"'; })
+      .join(",");
+    lines.push(line);
+  });
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "choir-retreat-bootcamp-registrations.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportBootcampExcel(rows){
+  if (typeof XLSX === "undefined"){
+    alert("Excel export library failed to load. Check your connection and try again.");
+    return;
+  }
+  const header = ["Full name","Email","Phone","Instrumental training","Instrument","Continuing boot camp","Certificate fee acknowledged","Registered at"];
+  const data = rows.map(function(r){
+    return [
+      r.full_name || "",
+      r.email || "",
+      r.phone || "",
+      r.instrument_training ? "Yes" : "No",
+      r.instrument || "",
+      r.continue_bootcamp ? "Yes" : "No",
+      r.certificate_fee_acknowledged ? "Yes" : "No",
+      r.created_at ? new Date(r.created_at).toLocaleString() : ""
+    ];
+  });
+  const sheetData = [header].concat(data);
+  const ws = XLSX.utils.aoa_to_sheet(sheetData);
+  ws["!cols"] = header.map(function(){ return { wch: 20 }; });
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Boot camp");
+  XLSX.writeFile(wb, "choir-retreat-bootcamp-registrations.xlsx");
 }
 
 /* ---------- Admin charts (Chart.js) ---------- */
