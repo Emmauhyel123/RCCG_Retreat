@@ -1925,4 +1925,6 @@ document.addEventListener("DOMContentLoaded", function(){
   safeInit(initAdminPage);
   safeInit(initCopyButtons);
 });
-window.location.replace("index.html");
+if (!user) {
+    window.location.href = "index.html";
+}
