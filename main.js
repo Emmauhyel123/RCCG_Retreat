@@ -149,6 +149,11 @@ const TRANSLATIONS = {
     admin_col_day: "Attending",
     admin_col_date: "Registered",
     admin_export: "Export as CSV",
+    admin_export_excel: "Export as Excel",
+    admin_chart_day: "Attendance by day",
+    admin_chart_trend: "Registrations over time",
+    admin_chart_location: "Top parishes / areas",
+    admin_chart_focus: "Focus areas",
     admin_loading: "Loading registrations…",
     admin_empty: "No one has registered yet.",
     admin_no_access: "This account doesn't have committee access to view registrations.",
@@ -1499,6 +1504,7 @@ async function initAdminPage(){
   document.getElementById("admin-table-wrap").style.display = "block";
 
   renderAdminRows(rows);
+  renderAdminCharts(rows);
 
   const searchInput = document.getElementById("admin-search");
   if (searchInput){
@@ -1517,11 +1523,129 @@ async function initAdminPage(){
     exportBtn.addEventListener("click", function(){ exportAdminCsv(ADMIN_ROWS); });
   }
 
+  const exportExcelBtn = document.getElementById("admin-export-excel-btn");
+  if (exportExcelBtn){
+    exportExcelBtn.addEventListener("click", function(){ exportAdminExcel(ADMIN_ROWS); });
+  }
+
   const signoutBtn = document.getElementById("signout-btn");
   if (signoutBtn){
     signoutBtn.addEventListener("click", async function(){
       await supabaseClient.auth.signOut();
       window.location.href = "index.html";
+    });
+  }
+}
+
+/* ---------- Admin charts (Chart.js) ---------- */
+let ADMIN_CHARTS = {};
+
+function destroyAdminCharts(){
+  Object.keys(ADMIN_CHARTS).forEach(function(key){
+    if (ADMIN_CHARTS[key]) ADMIN_CHARTS[key].destroy();
+  });
+  ADMIN_CHARTS = {};
+}
+
+function renderAdminCharts(rows){
+  if (typeof Chart === "undefined") return; // Chart.js failed to load (e.g. offline) — skip charts gracefully
+  destroyAdminCharts();
+
+  const chartColors = ["#a3212f", "#c9a24b", "#7a1622", "#e6cf9c", "#241014", "#4a1b24"];
+
+  /* Attendance by day (Friday / Saturday / Both) */
+  const dayCounts = { friday: 0, saturday: 0, both: 0 };
+  rows.forEach(function(r){ if (dayCounts.hasOwnProperty(r.arrival_day)) dayCounts[r.arrival_day]++; });
+  const dayCtx = document.getElementById("chart-day");
+  if (dayCtx){
+    ADMIN_CHARTS.day = new Chart(dayCtx, {
+      type: "doughnut",
+      data: {
+        labels: ["Friday only", "Saturday only", "Both days"],
+        datasets: [{ data: [dayCounts.friday, dayCounts.saturday, dayCounts.both], backgroundColor: chartColors }]
+      },
+      options: { responsive: true, plugins: { legend: { position: "bottom", labels: { color: "#241014" } } } }
+    });
+  }
+
+  /* Registrations over time (cumulative by day) */
+  const byDate = {};
+  rows.forEach(function(r){
+    if (!r.created_at) return;
+    const d = new Date(r.created_at).toISOString().slice(0, 10);
+    byDate[d] = (byDate[d] || 0) + 1;
+  });
+  const sortedDates = Object.keys(byDate).sort();
+  let running = 0;
+  const cumulative = sortedDates.map(function(d){ running += byDate[d]; return running; });
+  const trendCtx = document.getElementById("chart-trend");
+  if (trendCtx){
+    ADMIN_CHARTS.trend = new Chart(trendCtx, {
+      type: "line",
+      data: {
+        labels: sortedDates,
+        datasets: [{
+          label: "Total registrations",
+          data: cumulative,
+          borderColor: "#a3212f",
+          backgroundColor: "rgba(163,33,47,0.12)",
+          fill: true,
+          tension: 0.25
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: "#241014" } },
+          y: { ticks: { color: "#241014" }, beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  /* Top parishes / areas */
+  const locCounts = {};
+  rows.forEach(function(r){
+    const loc = r.parish || r.area || r.zone || r.province || "Unspecified";
+    locCounts[loc] = (locCounts[loc] || 0) + 1;
+  });
+  const topLocs = Object.entries(locCounts).sort(function(a, b){ return b[1] - a[1]; }).slice(0, 8);
+  const locCtx = document.getElementById("chart-location");
+  if (locCtx){
+    ADMIN_CHARTS.location = new Chart(locCtx, {
+      type: "bar",
+      data: {
+        labels: topLocs.map(function(e){ return e[0]; }),
+        datasets: [{ label: "Registrations", data: topLocs.map(function(e){ return e[1]; }), backgroundColor: "#a3212f" }]
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: "#241014" }, beginAtZero: true },
+          y: { ticks: { color: "#241014" } }
+        }
+      }
+    });
+  }
+
+  /* Focus areas */
+  const focusCounts = {};
+  rows.forEach(function(r){
+    (r.focus_areas || []).forEach(function(f){ focusCounts[f] = (focusCounts[f] || 0) + 1; });
+  });
+  const focusEntries = Object.entries(focusCounts).sort(function(a, b){ return b[1] - a[1]; });
+  const focusCtx = document.getElementById("chart-focus");
+  if (focusCtx){
+    ADMIN_CHARTS.focus = new Chart(focusCtx, {
+      type: "pie",
+      data: {
+        labels: focusEntries.map(function(e){ return e[0]; }),
+        datasets: [{ data: focusEntries.map(function(e){ return e[1]; }), backgroundColor: chartColors }]
+      },
+      options: { responsive: true, plugins: { legend: { position: "bottom", labels: { color: "#241014" } } } }
     });
   }
 }
@@ -1534,7 +1658,7 @@ function renderAdminRows(rows){
     const location = [r.parish, r.area, r.zone, r.province].filter(Boolean).join(" / ");
     const focus = (r.focus_areas && r.focus_areas.length) ? r.focus_areas.join(", ") : "";
     tr.innerHTML =
-      "<td>" + escapeHtml(r.full_name) + "</td>" +
+      "<td class=\"name-cell\">" + escapeHtml(r.full_name) + "</td>" +
       "<td>" + escapeHtml(r.email || "") + "</td>" +
       "<td>" + escapeHtml(r.phone || "") + "</td>" +
       "<td>" + escapeHtml(r.arrival_day || "") + "</td>" +
@@ -1571,6 +1695,34 @@ function exportAdminCsv(rows){
   a.download = "choir-retreat-registrations.csv";
   a.click();
   URL.revokeObjectURL(url);
+}
+
+function exportAdminExcel(rows){
+  if (typeof XLSX === "undefined"){
+    alert("Excel export library failed to load. Check your connection and try again.");
+    return;
+  }
+  const header = ["Full name","Email","Phone","Attending","Focus areas","Province","Zone","Area","Parish","Registered at"];
+  const data = rows.map(function(r){
+    return [
+      r.full_name || "",
+      r.email || "",
+      r.phone || "",
+      r.arrival_day || "",
+      (r.focus_areas || []).join("; "),
+      r.province || "",
+      r.zone || "",
+      r.area || "",
+      r.parish || "",
+      r.created_at ? new Date(r.created_at).toLocaleString() : ""
+    ];
+  });
+  const sheetData = [header].concat(data);
+  const ws = XLSX.utils.aoa_to_sheet(sheetData);
+  ws["!cols"] = header.map(function(){ return { wch: 20 }; });
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Registrations");
+  XLSX.writeFile(wb, "choir-retreat-registrations.xlsx");
 }
 
 function initCopyButtons(){

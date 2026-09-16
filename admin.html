@@ -10,10 +10,17 @@
 <link rel="stylesheet" href="styles.css">
 <style>
   .admin-table-scroll{ overflow-x:auto; border:1px solid var(--paper-line); }
-  table.admin-table{ width:100%; border-collapse:collapse; font-size:14px; background:#fff; }
-  table.admin-table th, table.admin-table td{ padding:12px 14px; text-align:left; border-bottom:1px solid var(--paper-line); white-space:nowrap; }
+  table.admin-table{ width:100%; border-collapse:collapse; font-size:14px; background:#fff; color: var(--charcoal); }
+  table.admin-table th, table.admin-table td{ padding:12px 14px; text-align:left; border-bottom:1px solid var(--paper-line); white-space:nowrap; color: var(--charcoal); }
   table.admin-table th{ background: var(--paper); font-family: var(--serif); font-weight:600; color: var(--charcoal); }
+  table.admin-table td.name-cell{ font-weight:600; color: var(--charcoal) !important; }
   table.admin-table tbody tr:hover{ background:#faf5ea; }
+
+  .charts-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:18px; margin-bottom:28px; }
+  .chart-box{ background:#fff; border:1px solid var(--paper-line); padding:18px; color: var(--charcoal); }
+  .chart-box h3{ font-family: var(--serif); font-size:15px; margin:0 0 14px; color: var(--charcoal); font-weight:600; }
+  .chart-box canvas{ max-height:260px; }
+  .export-buttons{ display:flex; gap:10px; flex-wrap:wrap; }
   .stat-row{ display:flex; gap:18px; flex-wrap:wrap; margin-bottom:28px; }
   .stat-box{ background: var(--paper); color:var(--charcoal); padding:18px 24px; border:1px solid var(--paper-line); min-width:160px; }
   .stat-box .num{ font-family: var(--serif); font-size:32px; }
@@ -86,9 +93,31 @@
         </div>
       </div>
 
+      <div class="charts-grid">
+        <div class="chart-box">
+          <h3 data-i18n="admin_chart_day">Attendance by day</h3>
+          <canvas id="chart-day"></canvas>
+        </div>
+        <div class="chart-box">
+          <h3 data-i18n="admin_chart_trend">Registrations over time</h3>
+          <canvas id="chart-trend"></canvas>
+        </div>
+        <div class="chart-box">
+          <h3 data-i18n="admin_chart_location">Top parishes / areas</h3>
+          <canvas id="chart-location"></canvas>
+        </div>
+        <div class="chart-box">
+          <h3 data-i18n="admin_chart_focus">Focus areas</h3>
+          <canvas id="chart-focus"></canvas>
+        </div>
+      </div>
+
       <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin-bottom:18px;">
         <input type="search" id="admin-search" data-i18n-placeholder="admin_search_placeholder" placeholder="Search by name, phone, parish…" style="flex:1; min-width:220px; padding:11px 14px; border:1px solid var(--paper-line); border-radius:var(--radius); font-family:var(--sans); font-size:14.5px;">
-        <button id="admin-export-btn" class="btn btn-line" style="border-color:var(--crimson); color:var(--crimson);" data-i18n="admin_export">Export as CSV</button>
+        <div class="export-buttons">
+          <button id="admin-export-btn" class="btn btn-line" style="border-color:var(--crimson); color:var(--crimson);" data-i18n="admin_export">Export as CSV</button>
+          <button id="admin-export-excel-btn" class="btn btn-line" style="border-color:var(--crimson); color:var(--crimson);" data-i18n="admin_export_excel">Export as Excel</button>
+        </div>
       </div>
 
       <div class="admin-table-scroll">
@@ -112,6 +141,8 @@
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="config.js"></script>
 <script src="main.js"></script>
 </body>
