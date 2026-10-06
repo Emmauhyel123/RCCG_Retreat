@@ -13,7 +13,7 @@ create table if not exists public.post_retreat_registrations (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   constraint valid_training_duration check (training_duration_months in (0, 3)),
-  constraint valid_instrument check (instrument is null or instrument in ('Keyboard','Drums','Lead Guitar','Bass Guitar','Saxophone')),
+  constraint valid_instrument check (instrument is null or instrument in ('Keyboard','Drums','Lead Guitar','Bass Guitar','Saxophone','Sound Engineering')),
   constraint training_requires_instrument check (
     (instrument_training = false and instrument is null and training_duration_months = 0)
     or
@@ -42,3 +42,8 @@ do $$ begin
       on public.post_retreat_registrations for select using (exists (select 1 from public.admins a where a.user_id = auth.uid()));
   end if;
 end $$;
+
+-- MIGRATION: if post_retreat_registrations already exists, run this to allow 'Sound Engineering'.
+alter table public.post_retreat_registrations drop constraint if exists valid_instrument;
+alter table public.post_retreat_registrations add constraint valid_instrument
+  check (instrument is null or instrument in ('Keyboard','Drums','Lead Guitar','Bass Guitar','Saxophone','Sound Engineering'));

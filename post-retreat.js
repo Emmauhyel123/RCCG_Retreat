@@ -71,7 +71,7 @@
       return;
     }
     if (training === 'yes' && !instrument) {
-      msg.textContent = 'Please select the instrument you want to learn.';
+      msg.textContent = 'Please select the instrument or skill you want to learn.';
       return;
     }
     if (!acknowledged) {
