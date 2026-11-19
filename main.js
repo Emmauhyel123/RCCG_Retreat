@@ -108,35 +108,6 @@ const TRANSLATIONS = {
     dashboard_empty: "We couldn't find a registration linked to this account yet.",
     dashboard_signout: "Sign out",
     dashboard_not_set: "Not provided",
-    // Dashboard app shell (Home / Pass / More)
-    dashboard_welcome_back: "Welcome back",
-    dashboard_open_pass: "Open pass",
-    dashboard_essentials_kicker: "At a glance",
-    dashboard_essentials_title: "Your essentials",
-    dashboard_badge_chorister: "Chorister",
-    dashboard_my_registration: "My registration",
-    dashboard_registered_on: "Registered",
-    dashboard_card_attending: "Attending",
-    dashboard_card_focus: "Focus areas",
-    dashboard_card_church: "Where you worship",
-    dashboard_tab_home: "Home",
-    dashboard_tab_pass: "Pass",
-    dashboard_tab_more: "More",
-    dashboard_event_name: "RCCG Taraba Province 2",
-    dashboard_event_sub: "Choir Retreat & Concert 2026",
-    dashboard_scan: "Scan at check-in",
-    dashboard_delegate: "Delegate",
-    dashboard_pass_id: "Pass ID",
-    dashboard_save_pass: "Save pass",
-    dashboard_more_schedule: "Full schedule",
-    dashboard_more_schedule_sub: "Sessions across both days",
-    dashboard_more_ministers: "Ministers",
-    dashboard_more_ministers_sub: "Who's leading the retreat",
-    dashboard_more_connect: "Connect",
-    dashboard_more_connect_sub: "Social links & the flyer",
-    dashboard_more_admin: "Admin portal",
-    dashboard_more_admin_sub: "Committee access",
-    dashboard_more_edit_note: "Spotted a typo in your details? Reach the committee via Connect.",
     // Admin page
     admin_kicker: "Committee access",
     admin_title: "All registrations",
@@ -149,24 +120,9 @@ const TRANSLATIONS = {
     admin_col_day: "Attending",
     admin_col_date: "Registered",
     admin_export: "Export as CSV",
-    admin_export_excel: "Export as Excel",
-    admin_chart_day: "Attendance by day",
-    admin_chart_trend: "Registrations over time",
-    admin_chart_location: "Top parishes / areas",
-    admin_chart_focus: "Focus areas",
     admin_loading: "Loading registrations…",
     admin_empty: "No one has registered yet.",
     admin_no_access: "This account doesn't have committee access to view registrations.",
-    admin_bootcamp_title: "Boot camp / post-retreat registrations",
-    admin_bootcamp_lede: "Everyone who submitted the post-retreat training & boot camp form.",
-    admin_bootcamp_empty: "No one has submitted the post-retreat / boot camp form yet.",
-    admin_bootcamp_total_label: "Submitted this form",
-    admin_bootcamp_continuing_label: "Continuing with boot camp",
-    admin_bootcamp_training_label: "Want instrumental training",
-    admin_bootcamp_col_training: "Instrumental training",
-    admin_bootcamp_col_instrument: "Instrument",
-    admin_bootcamp_col_bootcamp: "Boot camp",
-    admin_bootcamp_col_cert: "Certificate fee ack.",
     // Social page
     social_eyebrow: "Stay in the loop",
     social_title: "Connect with the choir",
@@ -198,11 +154,6 @@ const TRANSLATIONS = {
     loc_select_zone: "Select zone",
     loc_select_area: "Select area",
     loc_select_parish: "Select parish",
-    loc_other: "Other (please specify)",
-    loc_other_placeholder_province: "e.g. your church's name and province/region",
-    loc_other_placeholder_zone: "e.g. your zone or district",
-    loc_other_placeholder_area: "e.g. your local area",
-    loc_other_placeholder_parish: "Your parish / church name",
     dashboard_location_label: "Church",
     admin_col_location: "Church (Parish / Area / Zone / Province)",
     admin_search_placeholder: "Search by name, phone, parish…",
@@ -219,35 +170,34 @@ const TRANSLATIONS = {
     reset_sent: "Check your email for the reset link.",
     reset_error: "Something went wrong — check the details and try again.",
     reset_done: "Password updated — redirecting to login…",
-
-    // Post-retreat / continued training
-    dashboard_training_title: "Continue Your Training",
-    dashboard_training_sub: "Continue with the 3-month instrumental training and boot camp after the retreat.",
-    dashboard_training_cta: "Continue Your Training",
-    post_retreat_eyebrow: "Post-retreat registration",
-    post_retreat_title: "Continue Your Training",
-    post_retreat_lede: "The retreat may be over, but your growth can continue. Register for the next stage of training and let us prepare the right instructors and resources for you.",
-    post_retreat_quote: "Grow in grace. Grow in skill.",
-    post_retreat_side_title: "What's next?",
-    post_retreat_side_text: "Three months of instrumental learning, continued boot camp participation, and a certificate option.",
-    post_retreat_form_title: "Continue your training",
-    post_retreat_form_lede: "Tell the committee which opportunities you want to continue with after the retreat.",
-    post_retreat_training_label: "3-month instrumental training",
-    post_retreat_training_yes: "Yes, I want to learn an instrument or sound engineering for 3 months.",
-    post_retreat_training_no: "No, I do not want instrumental training at this time.",
-    post_retreat_instrument_label: "Instrument or skill to learn",
-    post_retreat_bootcamp_label: "Continue with the boot camp",
-    post_retreat_bootcamp_yes: "Yes, I want to continue with the boot camp.",
-    post_retreat_bootcamp_no: "No, I am not continuing with the boot camp.",
-    post_retreat_certificate_label: "Certificate",
-    post_retreat_certificate_fee_label: "Certificate fee",
-    post_retreat_certificate_fee_text: "Please take note of the certificate fee.",
-    post_retreat_certificate_ack: "I acknowledge the certificate fee of ₦3,000.",
-    post_retreat_submit: "Submit registration",
-    post_retreat_success_title: "You're registered for the next stage.",
-    post_retreat_success_text: "The committee can now plan your training and boot camp participation.",
-    post_retreat_footer: "You can return to your dashboard at any time.",
-    post_retreat_dashboard: "Dashboard",
+    // Boot camp
+    bootcamp_question: "Continue with the 3-month instrument boot camp after the retreat?",
+    bootcamp_question_short: "Boot camp",
+    bootcamp_yes: "Yes",
+    bootcamp_no: "No",
+    bootcamp_note: "Runs for 3 months after the retreat. A ₦3,000 certificate fee applies on completion.",
+    bootcamp_instrument_label: "Which instrument would you like to learn?",
+    instrument_keyboard: "Keyboard",
+    instrument_drums: "Drums",
+    instrument_lead_guitar: "Lead guitar",
+    instrument_bass_guitar: "Bass guitar",
+    instrument_saxophone: "Saxophone",
+    bootcamp_kicker: "After the retreat",
+    bootcamp_title: "Keep growing: the 3-month instrument boot camp",
+    bootcamp_lede: "For anyone who wants to go further with an instrument after the retreat ends. Three months of hands-on training, with a certificate on completion for a ₦3,000 fee.",
+    bootcamp_signup_note: "You can opt in when you register below — no separate form needed.",
+    others_kicker: "Register others",
+    others_title: "People you've registered",
+    others_lede: "Add choristers from your parish who don't have an account. They'll show up here and in the committee's list.",
+    others_empty: "You haven't registered anyone else yet.",
+    others_add_button: "Register someone",
+    others_email_optional: "Email address (optional)",
+    others_submit: "Register this person",
+    others_missing: "Please enter at least their name and phone number.",
+    others_added: "Added! They now appear in your list.",
+    others_delete: "Remove",
+    others_delete_confirm: "Remove this person's registration?",
+    admin_col_registered_by: "Registered by",
   },
   ha: {
     nav_home: "Gida",
@@ -391,11 +341,6 @@ const TRANSLATIONS = {
     loc_select_zone: "Zaɓi yanki",
     loc_select_area: "Zaɓi unguwa",
     loc_select_parish: "Zaɓi coci",
-    loc_other: "Sauran (da fatan a bayyana)",
-    loc_other_placeholder_province: "misali: sunan cocinku da lardi/yanki",
-    loc_other_placeholder_zone: "misali: yankinku",
-    loc_other_placeholder_area: "misali: unguwar ku",
-    loc_other_placeholder_parish: "Sunan coci/ikilisiyar ku",
     dashboard_location_label: "Coci",
     admin_col_location: "Coci (Coci / Unguwa / Yanki / Lardi)",
     admin_search_placeholder: "Bincika da suna, waya, coci…",
@@ -411,6 +356,33 @@ const TRANSLATIONS = {
     reset_sent: "Duba imel ɗinku don hanyar saitawa.",
     reset_error: "Wani abu ya ɓaci — duba bayananku ku sake gwadawa.",
     reset_done: "An sabunta kalmar sirri — ana kai ku ga shiga…",
+    bootcamp_question: "Ci gaba da darasin kayan kiɗa na wata uku bayan zaman horo?",
+    bootcamp_question_short: "Darasin wata uku",
+    bootcamp_yes: "I",
+    bootcamp_no: "A'a",
+    bootcamp_note: "Zai ɗauki wata uku bayan zaman horo. Za a biya ₦3,000 don takardar shaida bayan kammalawa.",
+    bootcamp_instrument_label: "Wane kayan kiɗa kake son koya?",
+    instrument_keyboard: "Kiboodi",
+    instrument_drums: "Ganguna",
+    instrument_lead_guitar: "Fitar da Guitar",
+    instrument_bass_guitar: "Bass Guitar",
+    instrument_saxophone: "Saxophone",
+    bootcamp_kicker: "Bayan zaman horo",
+    bootcamp_title: "Ci gaba da girma: darasin kayan kiɗa na wata uku",
+    bootcamp_lede: "Ga duk wanda ke son ci gaba da koyon kayan kiɗa bayan zaman horo ya ƙare. Wata uku na horo na hannu, tare da takardar shaida bayan kammalawa akan ₦3,000.",
+    bootcamp_signup_note: "Za ku iya zaɓi wannan lokacin da kuke yin rijista a ƙasa — babu buƙatar wani fom daban.",
+    others_kicker: "Yi rijistar wasu",
+    others_title: "Mutanen da kuka yi wa rijista",
+    others_lede: "Ƙara mawaƙa daga cocinku waɗanda ba su da asusu. Za su bayyana a nan da kuma a jerin kwamiti.",
+    others_empty: "Ba ku yi wa kowa rijista ba tukuna.",
+    others_add_button: "Yi wa wani rijista",
+    others_email_optional: "Adireshin imel (zaɓi)",
+    others_submit: "Yi wa wannan mutum rijista",
+    others_missing: "Da fatan a shigar da aƙalla suna da lambar waya.",
+    others_added: "An ƙara! Yanzu suna cikin jerinku.",
+    others_delete: "Cire",
+    others_delete_confirm: "Cire rijistar wannan mutum?",
+    admin_col_registered_by: "Wanda ya yi rijista",
   },
   yo: {
     nav_home: "Ile",
@@ -554,11 +526,6 @@ const TRANSLATIONS = {
     loc_select_zone: "Yan zone",
     loc_select_area: "Yan agbègbè",
     loc_select_parish: "Yan ìjọ",
-    loc_other: "Òmíràn (jọ̀wọ́ ṣàlàyé)",
-    loc_other_placeholder_province: "f.a.: orúkọ ìjọ rẹ àti ìpínlẹ̀/agbègbè",
-    loc_other_placeholder_zone: "f.a.: agbègbè tàbí zone rẹ",
-    loc_other_placeholder_area: "f.a.: agbègbè kékeré rẹ",
-    loc_other_placeholder_parish: "Orúkọ ìjọ rẹ",
     dashboard_location_label: "Ìjọ",
     admin_col_location: "Ìjọ (Ìjọ / Agbègbè / Zone / Ìpínlẹ̀)",
     admin_search_placeholder: "Wá orúkọ, fóònù, ìjọ…",
@@ -574,6 +541,33 @@ const TRANSLATIONS = {
     reset_sent: "Ṣàyẹ̀wò ímeèlì rẹ fún ọ̀nà ìṣàtúntò.",
     reset_error: "Nǹkan bàjẹ́ — ṣàyẹ̀wò kúlẹ̀kúlẹ̀ rẹ kí o sì tún gbìyànjú.",
     reset_done: "A ti sọ ọ̀rọ̀ìgbaniwọlé di tuntun — à ń mú ọ lọ sí ibi wíwọlé…",
+    bootcamp_question: "Ṣé o fẹ́ tẹ̀síwájú pẹ̀lú ìdánilẹ́kọ̀ọ́ ohun èlò orin oṣù mẹ́ta lẹ́yìn ìpàdé náà?",
+    bootcamp_question_short: "Ìdánilẹ́kọ̀ọ́ oṣù mẹ́ta",
+    bootcamp_yes: "Bẹ́ẹ̀ni",
+    bootcamp_no: "Rárá",
+    bootcamp_note: "Yóò gba oṣù mẹ́ta lẹ́yìn ìpàdé náà. Owó ẹ̀rí-ìparí ₦3,000 ni a ó gbà nígbà tí a bá parí.",
+    bootcamp_instrument_label: "Ohun èlò orin wo ni o fẹ́ kọ́?",
+    instrument_keyboard: "Kíbọ́dù",
+    instrument_drums: "Dùrún",
+    instrument_lead_guitar: "Gita aṣíwájú",
+    instrument_bass_guitar: "Gita beesi",
+    instrument_saxophone: "Saxophone",
+    bootcamp_kicker: "Lẹ́yìn ìpàdé náà",
+    bootcamp_title: "Máa bá a nìṣó dàgbà: ìdánilẹ́kọ̀ọ́ ohun èlò orin oṣù mẹ́ta",
+    bootcamp_lede: "Fún ẹnikẹ́ni tó fẹ́ tẹ̀síwájú pẹ̀lú ohun èlò orin lẹ́yìn tí ìpàdé náà bá parí. Oṣù mẹ́ta ti ìdánilẹ́kọ̀ọ́ ọwọ́-sí-iṣẹ́, pẹ̀lú ẹ̀rí-ìparí ní ₦3,000.",
+    bootcamp_signup_note: "O lè yan èyí nígbà tí o bá forúkọsílẹ̀ nísàlẹ̀ — kò sí fọ́ọ̀mù míì tó yàtọ̀ sí i.",
+    others_kicker: "Forúkọsílẹ̀ àwọn ẹlòmíràn",
+    others_title: "Àwọn tí o ti forúkọsílẹ̀",
+    others_lede: "Fi àwọn akọrin láti ìjọ rẹ tí kò ní àkọọ́lẹ̀ kún un. Wọn yóò hàn níbí àti nínú àtòjọ ìgbìmọ̀.",
+    others_empty: "O kò tíì forúkọsílẹ̀ ẹnikẹ́ni mìíràn.",
+    others_add_button: "Forúkọsílẹ̀ ẹnì kan",
+    others_email_optional: "Àdírẹ́sì ímeèlì (àṣàyàn)",
+    others_submit: "Forúkọsílẹ̀ ẹni yìí",
+    others_missing: "Jọ̀wọ́ fi o kéré jù orúkọ àti nọ́mbà fóònù wọn sí i.",
+    others_added: "A ti fi kún un! Wọ́n ti hàn nínú àtòjọ rẹ báyìí.",
+    others_delete: "Yọ kúrò",
+    others_delete_confirm: "Yọ ìforúkọsílẹ̀ ẹni yìí kúrò?",
+    admin_col_registered_by: "Ẹni tí ó forúkọsílẹ̀ rẹ̀",
   },
   ig: {
     nav_home: "Ụlọ",
@@ -717,11 +711,6 @@ const TRANSLATIONS = {
     loc_select_zone: "Họrọ zon",
     loc_select_area: "Họrọ mpaghara nta",
     loc_select_parish: "Họrọ ụka",
-    loc_other: "Ọzọ (biko kọwapụta)",
-    loc_other_placeholder_province: "dmk: aha ụka gị na mpaghara/zon",
-    loc_other_placeholder_zone: "dmk: zon gị",
-    loc_other_placeholder_area: "dmk: mpaghara nta gị",
-    loc_other_placeholder_parish: "Aha ụka gị",
     dashboard_location_label: "Ụka",
     admin_col_location: "Ụka (Ụka / Mpaghara nta / Zon / Mpaghara)",
     admin_search_placeholder: "Chọọ site n'aha, ekwentị, ụka…",
@@ -737,6 +726,33 @@ const TRANSLATIONS = {
     reset_sent: "Lelee email gị maka njikọ ntọgharị.",
     reset_error: "Ihe adịghị mma — lelee nkọwa gị ma nwaa ọzọ.",
     reset_done: "Emelitela okwuntughe — na-eduga gị na ndebanye…",
+    bootcamp_question: "Ị ga-aga n'ihu na ọzụzụ ngwá egwu ọnwa atọ mgbe ọgbakọ ahụ gasịrị?",
+    bootcamp_question_short: "Ọzụzụ ọnwa atọ",
+    bootcamp_yes: "Ee",
+    bootcamp_no: "Mba",
+    bootcamp_note: "Ọ ga-ewe ọnwa atọ mgbe ọgbakọ ahụ gasịrị. A ga-akwụ ₦3,000 maka asambodo mgbe emechara.",
+    bootcamp_instrument_label: "Kedu ngwá egwu ị chọrọ ịmụ?",
+    instrument_keyboard: "Keyboard",
+    instrument_drums: "Ngịga",
+    instrument_lead_guitar: "Guitar isi",
+    instrument_bass_guitar: "Bass guitar",
+    instrument_saxophone: "Saxophone",
+    bootcamp_kicker: "Mgbe ọgbakọ ahụ gasịrị",
+    bootcamp_title: "Nọgide na-eto: ọzụzụ ngwá egwu ọnwa atọ",
+    bootcamp_lede: "Maka onye ọbụla chọrọ ịga n'ihu na ngwá egwu mgbe ọgbakọ ahụ gasịrị. Ọnwa atọ nke ọzụzụ aka, na asambodo mgbe emechara na ₦3,000.",
+    bootcamp_signup_note: "Ị nwere ike ịhọrọ nke a mgbe ị na-edebanye aha n'okpuru — ọ dịghị fọm ọzọ dị iche.",
+    others_kicker: "Debanye ndị ọzọ",
+    others_title: "Ndị ị debanyere aha",
+    others_lede: "Tinye ndị na-abụ abụ site n'ụka gị na-enweghị akaụntụ. Ha ga-apụta ebe a na n'ndepụta ndị nhazi.",
+    others_empty: "Ịdebanyebeghị onye ọzọ aha.",
+    others_add_button: "Debanye onye aha",
+    others_email_optional: "Adreesị email (nhọrọ)",
+    others_submit: "Debanye onye a aha",
+    others_missing: "Biko tinye ma ọ dịkarịa ala aha ha na nọmba ekwentị.",
+    others_added: "Agbakwunyela! Ha pụtara n'ndepụta gị ugbu a.",
+    others_delete: "Wepụ",
+    others_delete_confirm: "Wepụ ndebanye aha onye a?",
+    admin_col_registered_by: "Onye debanyere ya",
   }
 };
 
@@ -827,6 +843,7 @@ function initRegisterForm(){
 
   initWizardNav(form);
   initCascadeSelects(form);
+  initBootcampToggle(form);
 
   form.addEventListener("submit", async function(e){
     e.preventDefault();
@@ -838,10 +855,13 @@ function initRegisterForm(){
     const password = form.querySelector("#reg-password").value.trim();
     const arrival_day = form.querySelector("#reg-day").value;
     const focus_areas = Array.from(form.querySelectorAll('input[name="focus_areas"]:checked')).map(function(cb){ return cb.value; });
-    const province = resolveCascadeValue(form.querySelector("#reg-province"), form.querySelector("#reg-province-other"));
-    const zone = resolveCascadeValue(form.querySelector("#reg-zone"), form.querySelector("#reg-zone-other"));
-    const area = resolveCascadeValue(form.querySelector("#reg-area"), form.querySelector("#reg-area-other"));
-    const parish = resolveCascadeValue(form.querySelector("#reg-parish"), form.querySelector("#reg-parish-other"));
+    const bootcampRadio = form.querySelector('input[name="bootcamp_interest"]:checked');
+    const bootcamp_interest = bootcampRadio ? bootcampRadio.value === "yes" : false;
+    const bootcamp_instrument = bootcamp_interest ? form.querySelector("#reg-instrument").value : null;
+    const province = form.querySelector("#reg-province").value;
+    const zone = form.querySelector("#reg-zone").value;
+    const area = form.querySelector("#reg-area").value;
+    const parish = form.querySelector("#reg-parish").value;
 
     if (!full_name || !phone || !email || !password){
       msg.textContent = dict.register_msg_missing;
@@ -858,7 +878,7 @@ function initRegisterForm(){
     const { data: signUpData, error: signUpError } = await supabaseClient.auth.signUp({
       email,
       password,
-      options: { data: { full_name, phone, arrival_day, focus_areas, province, zone, area, parish } },
+      options: { data: { full_name, phone, arrival_day, focus_areas, bootcamp_interest, bootcamp_instrument, province, zone, area, parish } },
     });
 
     if (signUpError){
@@ -880,6 +900,18 @@ function initRegisterForm(){
     msg.textContent = dict.register_msg_ok;
     msg.classList.add("ok");
     setTimeout(function(){ window.location.href = "dashboard.html"; }, 1200);
+  });
+}
+
+/* ---------- Boot camp instrument field (shown only if "Yes") ---------- */
+function initBootcampToggle(form){
+  const radios = form.querySelectorAll('input[name="bootcamp_interest"]');
+  const instrumentField = form.querySelector("#bootcamp-instrument-field");
+  if (!radios.length || !instrumentField) return;
+  radios.forEach(function(r){
+    r.addEventListener("change", function(){
+      instrumentField.style.display = (form.querySelector('input[name="bootcamp_interest"]:checked').value === "yes") ? "block" : "none";
+    });
   });
 }
 
@@ -926,38 +958,12 @@ function initWizardNav(form){
 }
 
 /* ---------- Cascading Province → Zone → Area → Parish ---------- */
-/* Every level (province/zone/area/parish) gets an "Other (please
-   specify)" option appended after its normal choices. Picking it
-   reveals a free-text input for that level — this is what lets
-   someone from outside the RCCG Taraba Province 2 structure (or an
-   RCCG member whose specific zone/area/parish isn't in the list
-   yet) still register. Choosing "Other" at any level also drops
-   every level below it straight into free-text mode, since there's
-   no further cascade data to offer once you've stepped off the
-   known tree. */
-const CASCADE_OTHER_VALUE = "__other__";
-
-function resolveCascadeValue(select, otherInput){
-  if (otherInput && otherInput.style.display !== "none"){
-    return otherInput.value.trim();
-  }
-  return select ? select.value : "";
-}
-
 function initCascadeSelects(form){
   const provinceSel = form.querySelector("#reg-province");
   if (!provinceSel || typeof LOCATION_DATA === "undefined") return;
   const zoneSel = form.querySelector("#reg-zone");
   const areaSel = form.querySelector("#reg-area");
   const parishSel = form.querySelector("#reg-parish");
-
-  const provinceOther = form.querySelector("#reg-province-other");
-  const zoneOther = form.querySelector("#reg-zone-other");
-  const areaOther = form.querySelector("#reg-area-other");
-  const parishOther = form.querySelector("#reg-parish-other");
-
-  const dict = TRANSLATIONS[getLang()] || TRANSLATIONS.en;
-  const otherLabel = dict.loc_other || "Other (please specify)";
 
   function fillSelect(select, options, placeholder){
     select.innerHTML = "";
@@ -969,95 +975,38 @@ function initCascadeSelects(form){
       o.value = opt; o.textContent = opt;
       select.appendChild(o);
     });
-    const otherOpt = document.createElement("option");
-    otherOpt.value = CASCADE_OTHER_VALUE;
-    otherOpt.textContent = otherLabel;
-    select.appendChild(otherOpt);
   }
 
-  function showOther(input){ if (input) input.style.display = "block"; }
-  function hideOther(input){ if (input){ input.style.display = "none"; input.value = ""; } }
-
-  // Normal reset: empties a select, disables it, and makes sure it
-  // (and its "other" input) are visible again for when a parent
-  // selection changes back from "Other" to a real value.
-  function resetLevel(select, otherInput){
+  function resetBelow(select){
     select.innerHTML = "";
     select.disabled = true;
-    select.style.display = "";
-    hideOther(otherInput);
   }
 
-  // Used when a parent level is "Other": there's no cascade data to
-  // build this select from, so skip straight to free-text entry.
-  function forceOtherMode(select, otherInput){
-    select.innerHTML = "";
-    select.disabled = true;
-    select.style.display = "none";
-    showOther(otherInput);
-  }
-
+  const dict = TRANSLATIONS[getLang()] || TRANSLATIONS.en;
   fillSelect(provinceSel, Object.keys(LOCATION_DATA), dict.loc_select_province || "Select province");
-  hideOther(provinceOther);
-  resetLevel(zoneSel, zoneOther);
-  resetLevel(areaSel, areaOther);
-  resetLevel(parishSel, parishOther);
+  resetBelow(zoneSel); resetBelow(areaSel); resetBelow(parishSel);
 
   provinceSel.addEventListener("change", function(){
-    if (provinceSel.value === CASCADE_OTHER_VALUE){
-      showOther(provinceOther);
-      forceOtherMode(zoneSel, zoneOther);
-      forceOtherMode(areaSel, areaOther);
-      forceOtherMode(parishSel, parishOther);
-      return;
-    }
-    hideOther(provinceOther);
     const zones = LOCATION_DATA[provinceSel.value] || {};
-    zoneSel.style.display = "";
     fillSelect(zoneSel, Object.keys(zones), dict.loc_select_zone || "Select zone");
     zoneSel.disabled = false;
-    resetLevel(areaSel, areaOther);
-    resetLevel(parishSel, parishOther);
+    resetBelow(areaSel); resetBelow(parishSel);
   });
 
   zoneSel.addEventListener("change", function(){
-    if (zoneSel.value === CASCADE_OTHER_VALUE){
-      showOther(zoneOther);
-      forceOtherMode(areaSel, areaOther);
-      forceOtherMode(parishSel, parishOther);
-      return;
-    }
-    hideOther(zoneOther);
     const zones = LOCATION_DATA[provinceSel.value] || {};
     const areas = zones[zoneSel.value] || {};
-    areaSel.style.display = "";
     fillSelect(areaSel, Object.keys(areas), dict.loc_select_area || "Select area");
     areaSel.disabled = false;
-    resetLevel(parishSel, parishOther);
+    resetBelow(parishSel);
   });
 
   areaSel.addEventListener("change", function(){
-    if (areaSel.value === CASCADE_OTHER_VALUE){
-      showOther(areaOther);
-      forceOtherMode(parishSel, parishOther);
-      return;
-    }
-    hideOther(areaOther);
     const zones = LOCATION_DATA[provinceSel.value] || {};
     const areas = zones[zoneSel.value] || {};
     const parishes = areas[areaSel.value] || [];
-    parishSel.style.display = "";
     fillSelect(parishSel, parishes, dict.loc_select_parish || "Select parish");
     parishSel.disabled = false;
-    hideOther(parishOther);
-  });
-
-  parishSel.addEventListener("change", function(){
-    if (parishSel.value === CASCADE_OTHER_VALUE){
-      showOther(parishOther);
-    } else {
-      hideOther(parishOther);
-    }
   });
 }
 
@@ -1069,27 +1018,29 @@ async function completeRegistrationIfNeeded(session){
   const meta = session.user.user_metadata || {};
   if (!meta.full_name) return; // nothing pending to write
 
-  // Upsert on user_id (unique) instead of check-then-insert — this
-  // page can run concurrently (confirmation redirect, dashboard load,
-  // multiple tabs), and check-then-insert has a race window that used
-  // to create duplicate rows for the same user. ignoreDuplicates means
-  // a row that already exists is left untouched, not overwritten.
-  const { error } = await supabaseClient.from("registrations").upsert({
-    user_id: session.user.id,
-    full_name: meta.full_name || "",
-    email: session.user.email || meta.email || "",
-    phone: meta.phone || "",
-    arrival_day: meta.arrival_day || null,
-    focus_areas: meta.focus_areas || [],
-    province: meta.province || null,
-    zone: meta.zone || null,
-    area: meta.area || null,
-    parish: meta.parish || null,
-  }, { onConflict: "user_id" });
+  const { data: existing } = await supabaseClient
+    .from("registrations")
+    .select("id")
+    .eq("user_id", session.user.id)
+    .eq("is_self", true)
+    .maybeSingle();
 
-  if (error) {
-    console.error("[registration sync]", error);
-  }
+  if (existing) return;
+
+  await supabaseClient.from("registrations").insert({
+    user_id: session.user.id,
+    full_name: meta.full_name,
+    email: session.user.email,
+    phone: meta.phone,
+    arrival_day: meta.arrival_day,
+    focus_areas: meta.focus_areas || [],
+    bootcamp_interest: meta.bootcamp_interest || false,
+    bootcamp_instrument: meta.bootcamp_instrument || null,
+    province: meta.province,
+    zone: meta.zone,
+    area: meta.area,
+    parish: meta.parish,
+  });
 }
 
 /* ---------- Password reset (request + confirm, same page) ---------- */
@@ -1164,173 +1115,6 @@ function initPasswordResetPage(){
   }
 }
 
-/* ---------- Dashboard tab switching (Home / Pass / More) ---------- */
-function initDashboardTabs(){
-  const buttons = Array.from(document.querySelectorAll(".dash-tabbar-btn"));
-  const tabs = Array.from(document.querySelectorAll(".dash-tab"));
-  if (!buttons.length || !tabs.length) return;
-
-  function showTab(name){
-    tabs.forEach(function(t){ t.hidden = t.dataset.tab !== name; });
-    buttons.forEach(function(b){ b.classList.toggle("active", b.dataset.target === name); });
-    window.scrollTo(0, 0);
-  }
-
-  buttons.forEach(function(b){
-    b.addEventListener("click", function(){ showTab(b.dataset.target); });
-  });
-
-  const openPassBtn = document.getElementById("dash-open-pass");
-  if (openPassBtn){
-    openPassBtn.addEventListener("click", function(){ showTab("pass"); });
-  }
-
-  showTab("home");
-}
-
-/* Short, stable, human-typeable IDs derived from a UUID — not stored,
-   just formatted client-side from the real database id. */
-function shortId(uuid, prefix){
-  return prefix + uuid.replace(/-/g, "").slice(0, 8).toUpperCase();
-}
-
-/* Builds a full "pass card" PNG (QR + delegate details) client-side
-   and triggers a download — no server round-trip needed. */
-async function downloadPassCard(qrText, delegateName, passId, tagLabels){
-  if (document.fonts && document.fonts.ready){
-    try { await document.fonts.ready; } catch (e) { /* fall back to default fonts */ }
-  }
-
-  const qrDataUrl = await new Promise(function(resolve, reject){
-    QRCode.toDataURL(qrText, { width: 480, margin: 1, color: { dark: "#241014", light: "#00000000" } }, function(err, url){
-      if (err) reject(err); else resolve(url);
-    });
-  });
-  const qrImg = await new Promise(function(resolve, reject){
-    const img = new Image();
-    img.onload = function(){ resolve(img); };
-    img.onerror = reject;
-    img.src = qrDataUrl;
-  });
-
-  const W = 680, H = 980;
-  const canvas = document.createElement("canvas");
-  canvas.width = W; canvas.height = H;
-  const ctx = canvas.getContext("2d");
-
-  // Background + gold border
-  ctx.fillStyle = "#2b0f16";
-  ctx.fillRect(0, 0, W, H);
-  ctx.strokeStyle = "#c9a24b";
-  ctx.lineWidth = 3;
-  ctx.strokeRect(14, 14, W - 28, H - 28);
-
-  // Header
-  ctx.fillStyle = "#e6cf9c";
-  ctx.font = "600 15px 'Work Sans', sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("RCCG TARABA PROVINCE 2", W / 2, 70);
-  ctx.fillStyle = "#f4ead9";
-  ctx.font = "600 30px 'Fraunces', Georgia, serif";
-  ctx.fillText("Choir Retreat & Concert 2026", W / 2, 108);
-
-  // QR on white card
-  const qrSize = 360, qrX = (W - qrSize) / 2, qrY = 150;
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(qrX, qrY, qrSize, qrSize);
-  ctx.drawImage(qrImg, qrX + 20, qrY + 20, qrSize - 40, qrSize - 40);
-
-  // "Scan at check-in" pill
-  ctx.fillStyle = "rgba(163,33,47,0.18)";
-  const pillY = qrY + qrSize + 26;
-  roundRect(ctx, W / 2 - 110, pillY, 220, 34, 17);
-  ctx.fill();
-  ctx.fillStyle = "#e26a75";
-  ctx.font = "600 13px 'Work Sans', sans-serif";
-  ctx.fillText("SCAN AT CHECK-IN", W / 2, pillY + 22);
-
-  // Dashed divider
-  ctx.strokeStyle = "#4a1b24";
-  ctx.setLineDash([6, 6]);
-  ctx.beginPath();
-  ctx.moveTo(50, pillY + 64);
-  ctx.lineTo(W - 50, pillY + 64);
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // Delegate block
-  let y = pillY + 108;
-  ctx.textAlign = "left";
-  ctx.fillStyle = "#c9a24b";
-  ctx.font = "600 13px 'Work Sans', sans-serif";
-  ctx.fillText("DELEGATE", 50, y);
-  y += 38;
-  ctx.fillStyle = "#f4ead9";
-  ctx.font = "600 32px 'Fraunces', Georgia, serif";
-  wrapText(ctx, delegateName.toUpperCase(), 50, y, W - 100, 36);
-  y += Math.ceil(delegateName.length / 18) * 36 + 30;
-
-  ctx.fillStyle = "#c9a24b";
-  ctx.font = "600 13px 'Work Sans', sans-serif";
-  ctx.fillText("PASS ID", 50, y);
-  y += 30;
-  ctx.fillStyle = "#f4ead9";
-  ctx.font = "500 20px 'Fraunces', Georgia, serif";
-  ctx.fillText(passId, 50, y);
-
-  // Tags
-  y += 34;
-  let tagX = 50;
-  tagLabels.forEach(function(label){
-    ctx.font = "600 12.5px 'Work Sans', sans-serif";
-    const w = ctx.measureText(label).width + 26;
-    ctx.fillStyle = "#241014";
-    roundRect(ctx, tagX, y, w, 30, 15);
-    ctx.fill();
-    ctx.fillStyle = "#f4ead9";
-    ctx.textAlign = "left";
-    ctx.fillText(label, tagX + 13, y + 20);
-    tagX += w + 10;
-  });
-
-  // Footer
-  ctx.textAlign = "center";
-  ctx.fillStyle = "#e6cf9c";
-  ctx.font = "400 12px 'Work Sans', sans-serif";
-  ctx.fillText("rccg-retreat.vercel.app", W / 2, H - 36);
-
-  const link = document.createElement("a");
-  link.download = passId + "-pass.png";
-  link.href = canvas.toDataURL("image/png");
-  link.click();
-}
-
-function roundRect(ctx, x, y, w, h, r){
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + w, y, x + w, y + h, r);
-  ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r);
-  ctx.arcTo(x, y, x + w, y, r);
-  ctx.closePath();
-}
-
-function wrapText(ctx, text, x, y, maxWidth, lineHeight){
-  const words = text.split(" ");
-  let line = "";
-  words.forEach(function(word){
-    const test = line ? line + " " + word : word;
-    if (ctx.measureText(test).width > maxWidth && line){
-      ctx.fillText(line, x, y);
-      line = word;
-      y += lineHeight;
-    } else {
-      line = test;
-    }
-  });
-  if (line) ctx.fillText(line, x, y);
-}
-
 /* ---------- Dashboard (reads the logged-in user's registration) ---------- */
 async function initDashboard(){
   const greeting = document.getElementById("dashboard-greeting");
@@ -1343,113 +1127,31 @@ async function initDashboard(){
     return;
   }
 
+  greeting.textContent = dict.dashboard_greeting + (session.user.email ? " — " + session.user.email : "");
+
   await completeRegistrationIfNeeded(session);
 
-  const { data: registration, error: registrationError } = await supabaseClient
+  const { data: registration } = await supabaseClient
     .from("registrations")
     .select("*")
     .eq("user_id", session.user.id)
+    .eq("is_self", true)
     .maybeSingle();
 
-  if (registrationError) {
-    console.error("[dashboard registration]", registrationError);
-  }
-
-  const firstName = registration && registration.full_name ? registration.full_name.split(" ")[0] : "";
-  greeting.textContent = dict.dashboard_greeting + (firstName ? ", " + firstName : "");
-
-  const userId = shortId(session.user.id, "RET-");
-  const heroName = document.getElementById("dash-hero-name");
-  const heroId = document.getElementById("dash-hero-id");
-  if (heroName) heroName.textContent = (registration && registration.full_name) || session.user.email || "—";
-  if (heroId) heroId.textContent = userId;
+  initOthersSection(session);
 
   if (registration){
-    const attendLabel = dict["register_day_" + registration.arrival_day] || registration.arrival_day || dict.dashboard_not_set;
-    const cardSub = document.getElementById("dash-card-sub");
-    if (cardSub){
-      const registeredOn = registration.created_at ? new Date(registration.created_at).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "";
-      cardSub.textContent = dict.dashboard_registered_on + (registeredOn ? " " + registeredOn : "");
-    }
-
-    const attendCard = document.getElementById("dash-attend-value");
-    if (attendCard) attendCard.textContent = attendLabel;
-
-    const focusWrap = document.getElementById("dash-focus-chips");
-    if (focusWrap){
-      focusWrap.innerHTML = "";
-      (registration.focus_areas || []).forEach(function(f){
-        const span = document.createElement("span");
-        span.className = "dash-chip";
-        span.textContent = f;
-        focusWrap.appendChild(span);
-      });
-      if (!registration.focus_areas || !registration.focus_areas.length){
-        focusWrap.textContent = dict.dashboard_not_set;
-      }
-    }
-
-    const churchValue = document.getElementById("dash-church-value");
-    if (churchValue){
-      const parts = [registration.parish, registration.area, registration.zone, registration.province].filter(Boolean);
-      churchValue.textContent = parts.length ? parts.join(" • ") : dict.dashboard_not_set;
-    }
-
-    const homeEssentials = document.getElementById("dash-essentials");
-    if (homeEssentials) homeEssentials.style.display = "block";
-
-    // Pass tab
-    const passId = shortId(registration.id, "RET26-");
-    const qrText = "RCCG-RETREAT-2026|" + registration.id + "|" + registration.full_name;
-    const passName = document.getElementById("dash-pass-name");
-    const passIdEl = document.getElementById("dash-pass-id");
-    const passTags = document.getElementById("dash-pass-tags");
-    if (passName) passName.textContent = registration.full_name;
-    if (passIdEl) passIdEl.textContent = passId;
-    if (passTags){
-      passTags.innerHTML = "";
-      const tagValues = [dict.dashboard_status_confirmed, attendLabel];
-      tagValues.forEach(function(t, i){
-        const span = document.createElement("span");
-        if (i === 1) span.classList.add("alt");
-        span.textContent = t;
-        passTags.appendChild(span);
-      });
-    }
-
-    const qrHolder = document.getElementById("dash-qr-canvas");
-    if (qrHolder && window.QRCode){
-      qrHolder.innerHTML = "";
-      QRCode.toCanvas(qrText, { width: 220, margin: 1, color: { dark: "#241014", light: "#00000000" } }, function(err, canvas){
-        if (!err) qrHolder.appendChild(canvas);
-      });
-    }
-
-    const passTicket = document.getElementById("dash-pass-ticket");
-    if (passTicket) passTicket.style.display = "block";
-
-    const savePassBtn = document.getElementById("dash-save-pass");
-    if (savePassBtn){
-      savePassBtn.addEventListener("click", function(){
-        downloadPassCard(qrText, registration.full_name, passId, [dict.dashboard_status_confirmed, attendLabel]);
-      });
-    }
+    document.getElementById("dash-name").textContent = registration.full_name || dict.dashboard_not_set;
+    document.getElementById("dash-phone").textContent = registration.phone || dict.dashboard_not_set;
+    document.getElementById("dash-day").textContent = registration.arrival_day || dict.dashboard_not_set;
+    document.getElementById("dash-focus").textContent = (registration.focus_areas && registration.focus_areas.length) ? registration.focus_areas.join(", ") : dict.dashboard_not_set;
+    document.getElementById("dash-bootcamp").textContent = registration.bootcamp_interest ? (registration.bootcamp_instrument || dict.dashboard_not_set) : dict.bootcamp_no;
+    const locationParts = [registration.parish, registration.area, registration.zone, registration.province].filter(Boolean);
+    document.getElementById("dash-location").textContent = locationParts.length ? locationParts.join(", ") : dict.dashboard_not_set;
+    document.getElementById("dashboard-card").style.display = "block";
   } else {
-    const emptyEl = document.getElementById("dashboard-empty");
-    const emptyCta = document.getElementById("dashboard-empty-cta");
-    if (emptyEl) emptyEl.style.display = "block";
-    if (emptyCta) emptyCta.style.display = "inline-block";
-    const passEmpty = document.getElementById("dash-pass-empty");
-    if (passEmpty) passEmpty.style.display = "block";
-  }
-
-  // Admin link only shows for committee accounts
-  const adminLink = document.getElementById("dash-admin-link");
-  if (adminLink){
-    try {
-      const { data: isAdmin } = await supabaseClient.rpc("is_admin");
-      if (isAdmin) adminLink.style.display = "flex";
-    } catch (e) { /* not an admin, or rpc unavailable — link stays hidden */ }
+    document.getElementById("dashboard-empty").style.display = "block";
+    document.getElementById("dashboard-empty-cta").style.display = "inline-block";
   }
 
   const signoutBtn = document.getElementById("signout-btn");
@@ -1459,6 +1161,119 @@ async function initDashboard(){
       window.location.href = "index.html";
     });
   }
+}
+
+/* ---------- Register other people from a logged-in account ---------- */
+async function loadOthersList(session){
+  const dict = TRANSLATIONS[getLang()] || TRANSLATIONS.en;
+  const list = document.getElementById("others-list");
+  const empty = document.getElementById("others-empty");
+
+  const { data: rows } = await supabaseClient
+    .from("registrations")
+    .select("*")
+    .eq("user_id", session.user.id)
+    .eq("is_self", false)
+    .order("created_at", { ascending: false });
+
+  list.innerHTML = "";
+  if (!rows || rows.length === 0){
+    empty.style.display = "block";
+    return;
+  }
+  empty.style.display = "none";
+
+  rows.forEach(function(r){
+    const item = document.createElement("div");
+    item.className = "others-item";
+    const location = [r.parish, r.area, r.zone].filter(Boolean).join(", ");
+    const bootcamp = r.bootcamp_interest ? (r.bootcamp_instrument || dict.bootcamp_yes) : dict.bootcamp_no;
+    item.innerHTML =
+      '<div class="others-item-main">' +
+        '<div class="others-item-name">' + escapeHtml(r.full_name) + '</div>' +
+        '<div class="others-item-meta">' + escapeHtml(r.phone || "") + ' · ' + escapeHtml(r.arrival_day || "") + ' · ' + escapeHtml(dict.bootcamp_question_short) + ': ' + escapeHtml(bootcamp) + '</div>' +
+        (location ? '<div class="others-item-meta">' + escapeHtml(location) + '</div>' : '') +
+      '</div>' +
+      '<button type="button" class="others-delete" data-id="' + escapeHtml(r.id) + '">' + escapeHtml(dict.others_delete) + '</button>';
+    list.appendChild(item);
+  });
+
+  list.querySelectorAll(".others-delete").forEach(function(btn){
+    btn.addEventListener("click", async function(){
+      if (!window.confirm(dict.others_delete_confirm)) return;
+      await supabaseClient.from("registrations").delete().eq("id", btn.getAttribute("data-id"));
+      loadOthersList(session);
+    });
+  });
+}
+
+function initOthersSection(session){
+  const section = document.getElementById("others-section");
+  if (!section) return;
+  section.style.display = "block";
+
+  const form = document.getElementById("others-form");
+  const wrap = document.getElementById("others-form-wrap");
+  const toggle = document.getElementById("others-toggle");
+  const msg = document.getElementById("others-msg");
+
+  initCascadeSelects(form);
+  initBootcampToggle(form);
+  loadOthersList(session);
+
+  toggle.addEventListener("click", function(){
+    wrap.style.display = (wrap.style.display === "none") ? "block" : "none";
+  });
+
+  form.addEventListener("submit", async function(e){
+    e.preventDefault();
+    const dict = TRANSLATIONS[getLang()] || TRANSLATIONS.en;
+
+    const full_name = form.querySelector("#reg-name").value.trim();
+    const phone = form.querySelector("#reg-phone").value.trim();
+    const email = form.querySelector("#reg-email").value.trim();
+    const arrival_day = form.querySelector("#reg-day").value;
+    const focus_areas = Array.from(form.querySelectorAll('input[name="focus_areas"]:checked')).map(function(cb){ return cb.value; });
+    const bootcampRadio = form.querySelector('input[name="bootcamp_interest"]:checked');
+    const bootcamp_interest = bootcampRadio ? bootcampRadio.value === "yes" : false;
+    const bootcamp_instrument = bootcamp_interest ? form.querySelector("#reg-instrument").value : null;
+    const province = form.querySelector("#reg-province").value;
+    const zone = form.querySelector("#reg-zone").value;
+    const area = form.querySelector("#reg-area").value;
+    const parish = form.querySelector("#reg-parish").value;
+
+    if (!full_name || !phone){
+      msg.textContent = dict.others_missing;
+      msg.classList.remove("ok");
+      return;
+    }
+
+    msg.textContent = dict.register_msg_loading;
+    msg.classList.remove("ok");
+
+    const { error } = await supabaseClient.from("registrations").insert({
+      user_id: session.user.id,
+      is_self: false,
+      registered_by_email: session.user.email,
+      full_name, phone, email: email || null, arrival_day, focus_areas,
+      bootcamp_interest, bootcamp_instrument,
+      province: province || null, zone: zone || null, area: area || null, parish: parish || null,
+    });
+
+    if (error){
+      msg.textContent = error.message || dict.register_msg_error;
+      msg.classList.remove("ok");
+      return;
+    }
+
+    msg.textContent = dict.others_added;
+    msg.classList.add("ok");
+    form.reset();
+    initCascadeSelects(form);
+    const instrumentField = form.querySelector("#bootcamp-instrument-field");
+    if (instrumentField) instrumentField.style.display = "none";
+    loadOthersList(session);
+  });
 }
 
 /* ---------- Admin portal (committee-only, all registrations) ---------- */
@@ -1475,36 +1290,24 @@ async function initAdminPage(){
     return;
   }
 
-  const { data: isAdmin, error: adminError } = await supabaseClient.rpc("is_admin");
+  const { data: adminRow } = await supabaseClient
+    .from("admins")
+    .select("user_id")
+    .eq("user_id", session.user.id)
+    .maybeSingle();
 
   const loading = document.getElementById("admin-loading");
   if (loading) loading.style.display = "none";
 
-  if (adminError || !isAdmin){
-    if (adminError) console.error("[admin authorization]", adminError);
+  if (!adminRow){
     document.getElementById("admin-no-access").style.display = "block";
     return;
   }
 
-  // Boot camp / post-retreat registrations load independently of the
-  // main registrations table below, so it still shows up even if that
-  // table errors out or is empty.
-  loadBootcampAdmin();
-
-  const { data: rows, error: rowsError } = await supabaseClient
+  const { data: rows } = await supabaseClient
     .from("registrations")
     .select("*")
     .order("created_at", { ascending: false });
-
-  if (rowsError) {
-    console.error("[admin registrations]", rowsError);
-    const emptyMsg = document.getElementById("admin-empty-msg");
-    if (emptyMsg) {
-      emptyMsg.textContent = "Unable to load registrations. Check the Supabase setup and RLS policies.";
-      emptyMsg.style.display = "block";
-    }
-    return;
-  }
 
   if (!rows || rows.length === 0){
     document.getElementById("admin-empty-msg").style.display = "block";
@@ -1516,17 +1319,17 @@ async function initAdminPage(){
   document.getElementById("admin-count-friday").textContent = rows.filter(function(r){ return r.arrival_day === "friday"; }).length;
   document.getElementById("admin-count-saturday").textContent = rows.filter(function(r){ return r.arrival_day === "saturday"; }).length;
   document.getElementById("admin-count-both").textContent = rows.filter(function(r){ return r.arrival_day === "both"; }).length;
+  document.getElementById("admin-count-bootcamp").textContent = rows.filter(function(r){ return r.bootcamp_interest; }).length;
   document.getElementById("admin-table-wrap").style.display = "block";
 
   renderAdminRows(rows);
-  renderAdminCharts(rows);
 
   const searchInput = document.getElementById("admin-search");
   if (searchInput){
     searchInput.addEventListener("input", function(){
       const q = searchInput.value.trim().toLowerCase();
       const filtered = !q ? ADMIN_ROWS : ADMIN_ROWS.filter(function(r){
-        return [r.full_name, r.email, r.phone, r.parish, r.area, r.zone, r.province]
+        return [r.full_name, r.email, r.phone, r.parish, r.area, r.zone, r.province, r.registered_by_email]
           .some(function(v){ return v && String(v).toLowerCase().includes(q); });
       });
       renderAdminRows(filtered);
@@ -1538,281 +1341,11 @@ async function initAdminPage(){
     exportBtn.addEventListener("click", function(){ exportAdminCsv(ADMIN_ROWS); });
   }
 
-  const exportExcelBtn = document.getElementById("admin-export-excel-btn");
-  if (exportExcelBtn){
-    exportExcelBtn.addEventListener("click", function(){ exportAdminExcel(ADMIN_ROWS); });
-  }
-
   const signoutBtn = document.getElementById("signout-btn");
   if (signoutBtn){
     signoutBtn.addEventListener("click", async function(){
       await supabaseClient.auth.signOut();
       window.location.href = "index.html";
-    });
-  }
-}
-
-/* ---------- Admin: boot camp / post-retreat registrations ---------- */
-let ADMIN_BOOTCAMP_ROWS = [];
-
-async function loadBootcampAdmin(){
-  const section = document.getElementById("admin-bootcamp-section");
-  if (!section) return;
-  section.style.display = "block";
-
-  const [{ data: prRows, error: prError }, { data: regRows, error: regError }] = await Promise.all([
-    supabaseClient
-      .from("post_retreat_registrations")
-      .select("*")
-      .order("created_at", { ascending: false }),
-    supabaseClient
-      .from("registrations")
-      .select("user_id, full_name, email, phone, parish, area, zone, province")
-  ]);
-
-  if (prError) {
-    console.error("[admin post_retreat_registrations]", prError);
-    const emptyMsg = document.getElementById("admin-bootcamp-empty-msg");
-    if (emptyMsg) {
-      emptyMsg.textContent = "Unable to load boot camp registrations. Make sure post-retreat-sql.sql has been run in Supabase.";
-      emptyMsg.style.display = "block";
-    }
-    return;
-  }
-
-  if (regError) console.error("[admin registrations lookup]", regError);
-
-  if (!prRows || prRows.length === 0){
-    document.getElementById("admin-bootcamp-empty-msg").style.display = "block";
-    return;
-  }
-
-  const regByUserId = {};
-  (regRows || []).forEach(function(r){ regByUserId[r.user_id] = r; });
-
-  const joined = prRows.map(function(pr){
-    const reg = regByUserId[pr.user_id] || {};
-    return Object.assign({}, pr, {
-      full_name: reg.full_name || "",
-      email: reg.email || "",
-      phone: reg.phone || "",
-      parish: reg.parish || "",
-      area: reg.area || "",
-      zone: reg.zone || "",
-      province: reg.province || ""
-    });
-  });
-
-  ADMIN_BOOTCAMP_ROWS = joined;
-  document.getElementById("admin-bootcamp-total-count").textContent = joined.length;
-  document.getElementById("admin-bootcamp-continuing-count").textContent = joined.filter(function(r){ return r.continue_bootcamp; }).length;
-  document.getElementById("admin-bootcamp-training-count").textContent = joined.filter(function(r){ return r.instrument_training; }).length;
-  document.getElementById("admin-bootcamp-wrap").style.display = "block";
-
-  renderBootcampRows(joined);
-
-  const searchInput = document.getElementById("admin-bootcamp-search");
-  if (searchInput){
-    searchInput.addEventListener("input", function(){
-      const q = searchInput.value.trim().toLowerCase();
-      const filtered = !q ? ADMIN_BOOTCAMP_ROWS : ADMIN_BOOTCAMP_ROWS.filter(function(r){
-        return [r.full_name, r.email, r.phone, r.parish, r.area, r.zone, r.province, r.instrument]
-          .some(function(v){ return v && String(v).toLowerCase().includes(q); });
-      });
-      renderBootcampRows(filtered);
-    });
-  }
-
-  const exportBtn = document.getElementById("admin-bootcamp-export-btn");
-  if (exportBtn){
-    exportBtn.addEventListener("click", function(){ exportBootcampCsv(ADMIN_BOOTCAMP_ROWS); });
-  }
-
-  const exportExcelBtn = document.getElementById("admin-bootcamp-export-excel-btn");
-  if (exportExcelBtn){
-    exportExcelBtn.addEventListener("click", function(){ exportBootcampExcel(ADMIN_BOOTCAMP_ROWS); });
-  }
-}
-
-function renderBootcampRows(rows){
-  const tbody = document.getElementById("admin-bootcamp-table-body");
-  if (!tbody) return;
-  tbody.innerHTML = "";
-  rows.forEach(function(r){
-    const tr = document.createElement("tr");
-    tr.innerHTML =
-      "<td class=\"name-cell\">" + escapeHtml(r.full_name || "—") + "</td>" +
-      "<td>" + escapeHtml(r.email || "") + "</td>" +
-      "<td>" + escapeHtml(r.phone || "") + "</td>" +
-      "<td>" + (r.instrument_training ? "Yes" : "No") + "</td>" +
-      "<td>" + escapeHtml(r.instrument || "") + "</td>" +
-      "<td>" + (r.continue_bootcamp ? "Yes" : "No") + "</td>" +
-      "<td>" + (r.certificate_fee_acknowledged ? "Yes" : "No") + "</td>" +
-      "<td>" + (r.created_at ? new Date(r.created_at).toLocaleDateString() : "") + "</td>";
-    tbody.appendChild(tr);
-  });
-}
-
-function exportBootcampCsv(rows){
-  const header = ["Full name","Email","Phone","Instrumental training","Instrument","Continuing boot camp","Certificate fee acknowledged","Registered at"];
-  const lines = [header.join(",")];
-  rows.forEach(function(r){
-    const line = [
-      r.full_name, r.email, r.phone,
-      r.instrument_training ? "Yes" : "No",
-      r.instrument,
-      r.continue_bootcamp ? "Yes" : "No",
-      r.certificate_fee_acknowledged ? "Yes" : "No",
-      r.created_at
-    ]
-      .map(function(v){ return '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"'; })
-      .join(",");
-    lines.push(line);
-  });
-  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "choir-retreat-bootcamp-registrations.csv";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function exportBootcampExcel(rows){
-  if (typeof XLSX === "undefined"){
-    alert("Excel export library failed to load. Check your connection and try again.");
-    return;
-  }
-  const header = ["Full name","Email","Phone","Instrumental training","Instrument","Continuing boot camp","Certificate fee acknowledged","Registered at"];
-  const data = rows.map(function(r){
-    return [
-      r.full_name || "",
-      r.email || "",
-      r.phone || "",
-      r.instrument_training ? "Yes" : "No",
-      r.instrument || "",
-      r.continue_bootcamp ? "Yes" : "No",
-      r.certificate_fee_acknowledged ? "Yes" : "No",
-      r.created_at ? new Date(r.created_at).toLocaleString() : ""
-    ];
-  });
-  const sheetData = [header].concat(data);
-  const ws = XLSX.utils.aoa_to_sheet(sheetData);
-  ws["!cols"] = header.map(function(){ return { wch: 20 }; });
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Boot camp");
-  XLSX.writeFile(wb, "choir-retreat-bootcamp-registrations.xlsx");
-}
-
-/* ---------- Admin charts (Chart.js) ---------- */
-let ADMIN_CHARTS = {};
-
-function destroyAdminCharts(){
-  Object.keys(ADMIN_CHARTS).forEach(function(key){
-    if (ADMIN_CHARTS[key]) ADMIN_CHARTS[key].destroy();
-  });
-  ADMIN_CHARTS = {};
-}
-
-function renderAdminCharts(rows){
-  if (typeof Chart === "undefined") return; // Chart.js failed to load (e.g. offline) — skip charts gracefully
-  destroyAdminCharts();
-
-  const chartColors = ["#a3212f", "#c9a24b", "#7a1622", "#e6cf9c", "#241014", "#4a1b24"];
-
-  /* Attendance by day (Friday / Saturday / Both) */
-  const dayCounts = { friday: 0, saturday: 0, both: 0 };
-  rows.forEach(function(r){ if (dayCounts.hasOwnProperty(r.arrival_day)) dayCounts[r.arrival_day]++; });
-  const dayCtx = document.getElementById("chart-day");
-  if (dayCtx){
-    ADMIN_CHARTS.day = new Chart(dayCtx, {
-      type: "doughnut",
-      data: {
-        labels: ["Friday only", "Saturday only", "Both days"],
-        datasets: [{ data: [dayCounts.friday, dayCounts.saturday, dayCounts.both], backgroundColor: chartColors }]
-      },
-      options: { responsive: true, plugins: { legend: { position: "bottom", labels: { color: "#241014" } } } }
-    });
-  }
-
-  /* Registrations over time (cumulative by day) */
-  const byDate = {};
-  rows.forEach(function(r){
-    if (!r.created_at) return;
-    const d = new Date(r.created_at).toISOString().slice(0, 10);
-    byDate[d] = (byDate[d] || 0) + 1;
-  });
-  const sortedDates = Object.keys(byDate).sort();
-  let running = 0;
-  const cumulative = sortedDates.map(function(d){ running += byDate[d]; return running; });
-  const trendCtx = document.getElementById("chart-trend");
-  if (trendCtx){
-    ADMIN_CHARTS.trend = new Chart(trendCtx, {
-      type: "line",
-      data: {
-        labels: sortedDates,
-        datasets: [{
-          label: "Total registrations",
-          data: cumulative,
-          borderColor: "#a3212f",
-          backgroundColor: "rgba(163,33,47,0.12)",
-          fill: true,
-          tension: 0.25
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { ticks: { color: "#241014" } },
-          y: { ticks: { color: "#241014" }, beginAtZero: true }
-        }
-      }
-    });
-  }
-
-  /* Top parishes / areas */
-  const locCounts = {};
-  rows.forEach(function(r){
-    const loc = r.parish || r.area || r.zone || r.province || "Unspecified";
-    locCounts[loc] = (locCounts[loc] || 0) + 1;
-  });
-  const topLocs = Object.entries(locCounts).sort(function(a, b){ return b[1] - a[1]; }).slice(0, 8);
-  const locCtx = document.getElementById("chart-location");
-  if (locCtx){
-    ADMIN_CHARTS.location = new Chart(locCtx, {
-      type: "bar",
-      data: {
-        labels: topLocs.map(function(e){ return e[0]; }),
-        datasets: [{ label: "Registrations", data: topLocs.map(function(e){ return e[1]; }), backgroundColor: "#a3212f" }]
-      },
-      options: {
-        indexAxis: "y",
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { ticks: { color: "#241014" }, beginAtZero: true },
-          y: { ticks: { color: "#241014" } }
-        }
-      }
-    });
-  }
-
-  /* Focus areas */
-  const focusCounts = {};
-  rows.forEach(function(r){
-    (r.focus_areas || []).forEach(function(f){ focusCounts[f] = (focusCounts[f] || 0) + 1; });
-  });
-  const focusEntries = Object.entries(focusCounts).sort(function(a, b){ return b[1] - a[1]; });
-  const focusCtx = document.getElementById("chart-focus");
-  if (focusCtx){
-    ADMIN_CHARTS.focus = new Chart(focusCtx, {
-      type: "pie",
-      data: {
-        labels: focusEntries.map(function(e){ return e[0]; }),
-        datasets: [{ data: focusEntries.map(function(e){ return e[1]; }), backgroundColor: chartColors }]
-      },
-      options: { responsive: true, plugins: { legend: { position: "bottom", labels: { color: "#241014" } } } }
     });
   }
 }
@@ -1824,13 +1357,17 @@ function renderAdminRows(rows){
     const tr = document.createElement("tr");
     const location = [r.parish, r.area, r.zone, r.province].filter(Boolean).join(" / ");
     const focus = (r.focus_areas && r.focus_areas.length) ? r.focus_areas.join(", ") : "";
+    const bootcamp = r.bootcamp_interest ? (r.bootcamp_instrument || "Yes") : "No";
+    const registeredBy = r.is_self === false ? ("By " + (r.registered_by_email || "another user")) : "Self";
     tr.innerHTML =
-      "<td class=\"name-cell\">" + escapeHtml(r.full_name) + "</td>" +
+      "<td>" + escapeHtml(r.full_name) + "</td>" +
       "<td>" + escapeHtml(r.email || "") + "</td>" +
       "<td>" + escapeHtml(r.phone || "") + "</td>" +
       "<td>" + escapeHtml(r.arrival_day || "") + "</td>" +
       "<td>" + escapeHtml(location) + "</td>" +
       "<td>" + escapeHtml(focus) + "</td>" +
+      "<td>" + escapeHtml(bootcamp) + "</td>" +
+      "<td>" + escapeHtml(registeredBy) + "</td>" +
       "<td>" + new Date(r.created_at).toLocaleDateString() + "</td>";
     tbody.appendChild(tr);
   });
@@ -1843,13 +1380,17 @@ function escapeHtml(str){
 }
 
 function exportAdminCsv(rows){
-  const header = ["Full name","Email","Phone","Attending","Focus areas","Province","Zone","Area","Parish","Registered at"];
+  const header = ["Full name","Email","Phone","Attending","Focus areas","Boot camp","Instrument","Province","Zone","Area","Parish","Registered by","Registered at"];
   const lines = [header.join(",")];
   rows.forEach(function(r){
     const line = [
       r.full_name, r.email, r.phone, r.arrival_day,
       (r.focus_areas || []).join("; "),
-      r.province, r.zone, r.area, r.parish, r.created_at
+      r.bootcamp_interest ? "Yes" : "No",
+      r.bootcamp_instrument || "",
+      r.province, r.zone, r.area, r.parish,
+      r.is_self === false ? (r.registered_by_email || "another user") : "Self",
+      r.created_at
     ]
       .map(function(v){ return '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"'; })
       .join(",");
@@ -1862,34 +1403,6 @@ function exportAdminCsv(rows){
   a.download = "choir-retreat-registrations.csv";
   a.click();
   URL.revokeObjectURL(url);
-}
-
-function exportAdminExcel(rows){
-  if (typeof XLSX === "undefined"){
-    alert("Excel export library failed to load. Check your connection and try again.");
-    return;
-  }
-  const header = ["Full name","Email","Phone","Attending","Focus areas","Province","Zone","Area","Parish","Registered at"];
-  const data = rows.map(function(r){
-    return [
-      r.full_name || "",
-      r.email || "",
-      r.phone || "",
-      r.arrival_day || "",
-      (r.focus_areas || []).join("; "),
-      r.province || "",
-      r.zone || "",
-      r.area || "",
-      r.parish || "",
-      r.created_at ? new Date(r.created_at).toLocaleString() : ""
-    ];
-  });
-  const sheetData = [header].concat(data);
-  const ws = XLSX.utils.aoa_to_sheet(sheetData);
-  ws["!cols"] = header.map(function(){ return { wch: 20 }; });
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Registrations");
-  XLSX.writeFile(wb, "choir-retreat-registrations.xlsx");
 }
 
 function initCopyButtons(){
@@ -1921,10 +1434,6 @@ document.addEventListener("DOMContentLoaded", function(){
   safeInit(initRegisterForm);
   safeInit(initPasswordResetPage);
   safeInit(initDashboard);
-  safeInit(initDashboardTabs);
   safeInit(initAdminPage);
   safeInit(initCopyButtons);
 });
-if (!user) {
-    window.location.href = "index.html";
-}

@@ -1,6 +1,11 @@
--- RCCG Retreat 2026 — complete Supabase setup
--- Run this in Supabase SQL Editor before using registration/login/admin features.
+-- ============================================================
+-- Run this once in Supabase → SQL Editor → New query → Run
+-- ============================================================
 
+-- 1. Table to hold retreat registration details.
+--    Auth (email/password, sessions) is handled by Supabase's
+--    built-in auth.users table — this table just adds the
+--    retreat-specific fields, linked to that user.
 create table if not exists public.registrations (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references auth.users(id) on delete cascade not null,
@@ -8,81 +13,111 @@ create table if not exists public.registrations (
   email text,
   phone text not null,
   parish_unit text,
-  arrival_day text check (arrival_day in ('friday','saturday','both')),
-  focus_areas text[] default '{}',
-  province text,
-  zone text,
-  area text,
-  parish text,
-  created_at timestamptz not null default now()
+  arrival_day text,        -- 'friday', 'saturday', or 'both'
+  created_at timestamptz default now()
 );
 
-alter table public.registrations add column if not exists focus_areas text[] default '{}';
-alter table public.registrations add column if not exists province text;
-alter table public.registrations add column if not exists zone text;
-alter table public.registrations add column if not exists area text;
-alter table public.registrations add column if not exists parish text;
-
--- Required by main.js upsert(..., { onConflict: "user_id" }).
-create unique index if not exists registrations_user_id_unique
-on public.registrations(user_id);
-
+-- 2. Turn on Row Level Security so people can only see/edit
+--    their own registration row — required, off by default.
 alter table public.registrations enable row level security;
 
+-- 3. Policy: a logged-in user can insert their own row.
+create policy "Users can insert their own registration"
+  on public.registrations for insert
+  with check (auth.uid() = user_id);
+
+-- 4. Policy: a logged-in user can view their own row.
+create policy "Users can view their own registration"
+  on public.registrations for select
+  using (auth.uid() = user_id);
+
+-- 5. Policy: a logged-in user can update their own row
+--    (e.g. if they need to fix a typo after registering).
+create policy "Users can update their own registration"
+  on public.registrations for update
+  using (auth.uid() = user_id);
+
+-- Optional, for the committee: create a separate admin role or
+-- use the Supabase dashboard's Table Editor (with the
+-- service_role key, never exposed to the browser) to view all
+-- registrations at once.
+
+-- ============================================================
+-- Admin portal support
+-- ============================================================
+
+-- 6. A table listing which accounts are allowed to see everyone's
+--    registration (rather than just their own). There is no
+--    "make me admin" button anywhere on the site on purpose —
+--    you add committee members here yourself, from the SQL Editor.
 create table if not exists public.admins (
   user_id uuid primary key references auth.users(id) on delete cascade
 );
 
 alter table public.admins enable row level security;
 
--- Security-definer admin check avoids recursive RLS checks on public.admins.
-create or replace function public.is_admin()
-returns boolean
-language sql
-security definer
-stable
-set search_path = public
-as $$
-  select exists (
-    select 1 from public.admins where user_id = auth.uid()
-  );
-$$;
-
-revoke all on function public.is_admin() from public;
-grant execute on function public.is_admin() to authenticated;
-
-drop policy if exists "Users can insert their own registration" on public.registrations;
-drop policy if exists "Users can view their own registration" on public.registrations;
-drop policy if exists "Users can update their own registration" on public.registrations;
-drop policy if exists "Admins can view all registrations" on public.registrations;
-drop policy if exists "Admins can view the admins list" on public.admins;
-
-create policy "Users can insert their own registration"
-on public.registrations for insert
-to authenticated
-with check (auth.uid() = user_id);
-
-create policy "Users can view their own registration"
-on public.registrations for select
-to authenticated
-using (auth.uid() = user_id or public.is_admin());
-
-create policy "Users can update their own registration"
-on public.registrations for update
-to authenticated
-using (auth.uid() = user_id or public.is_admin())
-with check (auth.uid() = user_id or public.is_admin());
-
+-- Only an existing admin can see who else is an admin.
 create policy "Admins can view the admins list"
-on public.admins for select
-to authenticated
-using (public.is_admin());
+  on public.admins for select
+  using (exists (select 1 from public.admins a where a.user_id = auth.uid()));
 
--- After the target person has registered, make them an admin:
--- insert into public.admins (user_id)
--- select id from auth.users
--- where email = 'YOUR_ADMIN_EMAIL@example.com'
--- on conflict (user_id) do nothing;
+-- 7. Extend the registrations policy so admins can see every row,
+--    not just their own (the earlier "view their own" policy from
+--    step 4 still applies for everyone else).
+create policy "Admins can view all registrations"
+  on public.registrations for select
+  using (exists (select 1 from public.admins a where a.user_id = auth.uid()));
 
--- Optional post-retreat table.
--- If you want this feature, also run post-retreat-sql.sql.
+-- ------------------------------------------------------------
+-- To make someone an admin:
+-- 1. Have them register normally on the site first (so they
+--    exist in auth.users), then run:
+--
+--    insert into public.admins (user_id)
+--    select id from auth.users where email = 'their-email@example.com';
+--
+-- 2. They can then log in and open admin.html.
+-- ------------------------------------------------------------
+
+-- ============================================================
+-- Registration form v2: focus areas + province/zone/area/parish
+-- Run this once to extend the existing registrations table.
+-- (The old parish_unit column is left in place, just unused by
+-- the new form — safe to drop later once you've migrated any
+-- existing rows.)
+-- ============================================================
+
+alter table public.registrations
+  add column if not exists focus_areas text[],
+  add column if not exists province text,
+  add column if not exists zone text,
+  add column if not exists area text,
+  add column if not exists parish text;
+
+-- ============================================================
+-- Registration form v3: 3-month instrument boot camp opt-in
+-- ============================================================
+
+alter table public.registrations
+  add column if not exists bootcamp_interest boolean default false,
+  add column if not exists bootcamp_instrument text;
+
+-- ============================================================
+-- Registration v4: let a logged-in user register other people
+-- RUN THIS ONCE in Supabase -> SQL Editor before using the
+-- "Register others" section on the dashboard.
+-- ============================================================
+
+alter table public.registrations
+  add column if not exists is_self boolean not null default true,
+  add column if not exists registered_by_email text;
+
+-- Existing rows keep is_self = true (they registered themselves).
+-- People added from someone's dashboard are saved under that
+-- person's user_id with is_self = false, so the insert/select
+-- policies from earlier already cover them.
+
+drop policy if exists "Users can delete people they registered" on public.registrations;
+create policy "Users can delete people they registered"
+  on public.registrations for delete
+  using (auth.uid() = user_id and is_self = false);
